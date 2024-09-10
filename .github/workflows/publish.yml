@@ -23,6 +23,7 @@ jobs:
 
       - name: Bump version
         run: |
+          git stash --include-untracked
           npm version patch -m "chore(release): bump version to %s"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
