@@ -3,7 +3,7 @@ name: Auto Bump Version and Publish
 on:
   push:
     branches:
-      - master
+      - 25
 
 jobs:
   bump-version:
@@ -34,8 +34,8 @@ jobs:
         run: |
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git config --global user.name "${GITHUB_ACTOR}"
-          git pull origin master --rebase
-          git push origin HEAD:master --follow-tags
+          git pull origin 25 --rebase
+          git push origin HEAD:25 --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
