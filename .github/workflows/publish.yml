@@ -3,7 +3,7 @@ name: Auto Bump Version and Publish
 on:
   push:
     branches:
-      - master
+      - 21
 
 jobs:
   bump-version:
