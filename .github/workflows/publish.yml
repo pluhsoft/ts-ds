@@ -34,7 +34,7 @@ jobs:
         run: |
           git config --global user.email "bzhenya2006@ya.ru"
           git config --global user.name "Ev-genia"
-          git pull origin main --rebase
-          git push origin HEAD:main --follow-tags
+          git pull origin 21 --rebase
+          git push origin HEAD:21 --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
