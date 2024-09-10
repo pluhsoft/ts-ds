@@ -23,8 +23,8 @@ jobs:
 
       - name: Bump version
         run: |
-          git config --global user.email "bzhenya2006@ya.ru"
-          git config --global user.name "Ev-genia"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
           git stash --include-untracked
           npm version patch -m "chore(release): bump version to %s"
         env:
@@ -32,8 +32,8 @@ jobs:
 
       - name: Push changes
         run: |
-          git config --global user.email "bzhenya2006@ya.ru"
-          git config --global user.name "Ev-genia"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
           git pull origin 21 --rebase
           git push origin HEAD:21 --follow-tags
         env:
