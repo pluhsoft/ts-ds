@@ -23,6 +23,8 @@ jobs:
 
       - name: Bump version
         run: |
+          git config --global user.email "bzhenya2006@ya.ru"
+          git config --global user.name "Ev-genia"
           git stash --include-untracked
           npm version patch -m "chore(release): bump version to %s"
         env:
