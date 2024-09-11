@@ -1,6 +1,6 @@
 {
   "name": "ts-ds",
-  "version": "1.0.1",
+  "version": "1.0.13",
   "description": "Data structure and algorithm in TypeScript",
   "main": "build/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pluhmylkin/ts-ds.git"
+    "url": "git+https://github.com/pluhsoft/ts-ds.git"
   },
   "keywords": [
     "algorithms",
@@ -21,9 +21,9 @@
   "author": "Andrei Pliukhaev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pluhmylkin/ts-ds/issues"
+    "url": "https://github.com/pluhsoft/ts-ds/issues"
   },
-  "homepage": "https://github.com/pluhmylkin/ts-ds#readme",
+  "homepage": "https://github.com/pluhsoft/ts-ds#readme",
   "devDependencies": {
     "@types/chai": "^4.2.15",
     "@types/mocha": "^8.2.0",
