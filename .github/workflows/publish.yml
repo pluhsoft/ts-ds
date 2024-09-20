@@ -70,7 +70,9 @@ jobs:
 
     - name: Combine READMEs
       run: |
-        find ./src -name 'readme.md' -exec cat {} \; > ./docs/combined.md
+        mkdir -p docs
+        touch docs/combinedReadme.md
+        find ./src -name 'readme.md' -exec cat {} \; > ./docs/combinedReadme.md
 
     - name: Commit and push if it changed
       run: |
