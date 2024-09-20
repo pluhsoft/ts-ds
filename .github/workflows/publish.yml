@@ -1,7 +1,7 @@
 name: Auto Bump Version and Publish
 
 env:
-  BRANCH_NAME: '28'
+  BRANCH_NAME: '29'
 
 on: push
 
