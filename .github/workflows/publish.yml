@@ -61,7 +61,8 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  build:
+  docs-collection:
+    needs: bump-version
     runs-on: ubuntu-latest
 
     steps:
