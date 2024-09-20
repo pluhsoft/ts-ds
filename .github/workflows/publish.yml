@@ -75,13 +75,6 @@ jobs:
         cat README.md > ./docs/combinedReadme.md
         find ./src -name 'README.md' -exec cat {} \; >> ./docs/combinedReadme.md
 
-    # - name: Commit and push if it changed
-    #   run: |
-    #     git diff
-    #     git config --global user.email "action@github.com"
-    #     git config --global user.name "GitHub Action"
-    #     git commit -am "Automated README combine" || exit 0
-    #     git push
     - name: Push changes
       run: |
         git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
