@@ -1,9 +1,9 @@
 name: Auto Bump Version and Publish
 
-on:
-  push:
-    branches:
-      - 26
+env:
+  BRANCH_NAME: 'master'
+
+on: push
 
 jobs:
   bump-version:
@@ -34,8 +34,8 @@ jobs:
         run: |
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git config --global user.name "${GITHUB_ACTOR}"
-          git pull origin 26 --rebase
-          git push origin HEAD:26 --follow-tags
+          git pull origin ${{ env.BRANCH_NAME }} --rebase
+          git push origin HEAD:${{ env.BRANCH_NAME }} --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -60,3 +60,30 @@ jobs:
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  docs-collection:
+    needs: bump-version
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Combine READMEs
+      run: |
+        mkdir -p docs
+        [ -f ./docs/combinedReadme.md ] || touch ./docs/combinedReadme.md
+        cat README.md > ./docs/combinedReadme.md
+        find ./src -name 'README.md' -exec cat {} \; >> ./docs/combinedReadme.md
+
+    - name: Push changes
+      run: |
+        git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+        git config --global user.name "${GITHUB_ACTOR}"
+        git stash
+        git pull origin ${{ env.BRANCH_NAME }} --rebase
+        if git stash list | grep stash@{0}; then git stash pop; fi
+        git add .
+        git commit -am "Automated README combine" || echo "No changes to commit"
+        git push origin HEAD:${{ env.BRANCH_NAME }} --follow-tags
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
