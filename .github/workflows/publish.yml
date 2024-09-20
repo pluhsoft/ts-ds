@@ -81,7 +81,7 @@ jobs:
         git config --global user.name "${GITHUB_ACTOR}"
         git stash
         git pull origin ${{ env.BRANCH_NAME }} --rebase
-        git stash pop
+        if git stash list | grep stash@{0}; then git stash pop; fi
         git add .
         git commit -am "Automated README combine"
         git push origin HEAD:${{ env.BRANCH_NAME }} --follow-tags
