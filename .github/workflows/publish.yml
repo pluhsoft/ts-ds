@@ -83,7 +83,7 @@ jobs:
         git pull origin ${{ env.BRANCH_NAME }} --rebase
         if git stash list | grep stash@{0}; then git stash pop; fi
         git add .
-        git commit -am "Automated README combine"
+        git commit -am "Automated README combine" || echo "No changes to commit"
         git push origin HEAD:${{ env.BRANCH_NAME }} --follow-tags
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
