@@ -3,7 +3,7 @@ name: Auto Bump Version and Publish
 on:
   push:
     branches:
-      - 26
+      - 28
 
 jobs:
   bump-version:
@@ -60,3 +60,21 @@ jobs:
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Combine READMEs
+      run: |
+        find ./src -name 'readme.md' -exec cat {} \; > ./docs/combined.md
+
+    - name: Commit and push if it changed
+      run: |
+        git diff
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git commit -am "Automated README combine" || exit 0
+        git push
