@@ -8,6 +8,9 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Added
 
+- Searching: `linearSearch`, `binarySearch`, `exponentialSearch`, `interpolationSearch` (first
+  occurrence or -1), `lowerBound`, `upperBound`, the `search` object, `searchingAlgorithms` and
+  `traceSearch`; `ts-ds/search` entry point; documentation page with a visualizer (English) (#51).
 - Visualizer: the pseudocode of the algorithm with the line being executed highlighted, and a race
   mode that runs two algorithms side by side on the same data (#67).
 - Interactive visualizer on the documentation site: bars, play/pause, step forward and back, a
