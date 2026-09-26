@@ -6,11 +6,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
-### Breaking changes
+## [2.0.0] - 2026-09-26
 
-- The package is an ES module (`"type": "module"`) with an `exports` map: only `ts-ds`,
-  `ts-ds/sort` and `ts-ds/package.json` can be imported; deep imports like `ts-ds/build/...` no
-  longer work. CommonJS `require('ts-ds')` keeps working (#47).
+Sorting algorithms are rewritten as described in CLRS and Sedgewick, and the package now ships
+ES modules and CommonJS.
+
+### Breaking changes
 
 - All sorting functions sort **in place and return nothing** (`void`), following command–query
   separation like `list.sort()` in Python and `Arrays.sort()` in Java. `mergeSort`, `countingSort`
@@ -20,36 +21,53 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
   (radix sort used to return a wrongly ordered array, counting sort crashed) (#46).
 - `countingSort` throws a `RangeError` when `max - min + 1` exceeds `COUNTING_SORT_MAX_RANGE` (2²⁶)
   instead of running out of memory (#46).
+- The package is an ES module (`"type": "module"`) with an `exports` map: only `ts-ds`,
+  `ts-ds/sort` and `ts-ds/package.json` can be imported; deep imports like `ts-ds/build/...` no
+  longer work. CommonJS `require('ts-ds')` keeps working (#47).
+
+#### Upgrading from 1.x
+
+```typescript
+// 1.x
+const sorted = sort.merge(data);
+
+// 2.0: sort a copy if the original must stay unchanged
+const sorted = [...data];
+sort.merge(sorted);
+```
 
 ### Fixed
 
 - Quick sort no longer overflows the call stack on sorted, reversed or equal input: Hoare
   partitioning, median-of-three pivot and recursion into the smaller part (#46).
-- Counting and radix sort work on arrays of any length (no more `Math.min(...array)` stack overflow) (#46).
+- Counting and radix sort work on arrays of any length (no more `Math.min(...array)` stack
+  overflow) (#46).
 - The default comparator puts `NaN` at the end instead of producing an unsorted array (#46).
+
+### Added
+
+- Named exports for every algorithm (`import { quickSort } from 'ts-ds'`), `defaultCompare`,
+  `CompareFn`, `COUNTING_SORT_MAX_RANGE` (#46).
+- ES modules and CommonJS builds with types for both, `ts-ds/sort` subpath, `sideEffects: false`
+  for tree-shaking, `engines.node >= 18` (#47).
 
 ### Changed
 
 - Shell sort uses Knuth's gap sequence (1, 4, 13, 40, …) with a proven O(n^(3/2)) worst case (#46).
-- Merge sort follows CLRS: merges back into the array and skips the merge when halves are already in order (#46).
+- Merge sort follows CLRS: merges back into the array and skips the merge when halves are already
+  in order (#46).
 - Every algorithm documents its idea, complexity, memory and stability in JSDoc (#46).
+- The published package contains only the build output and has no runtime dependencies (#38).
 
-### Added
+### Development
 
-- ES modules and CommonJS builds with an `exports` map and types for both; `ts-ds/sort` subpath;
-  `sideEffects: false` for tree-shaking; `engines.node >= 18` (#47).
+- Git Flow release process: `develop` → `release/X.Y.Z` → `main` → npm with provenance, automatic
+  tag, GitHub release and backmerge into `develop`; version policy checked in CI (#38).
+- Shared test suite for all algorithms with property-based tests (fast-check), 100% coverage,
+  type-checked tests (#46).
 - CI checks the package with publint and arethetypeswrong and installs the packed tarball into an
   empty project to use it via `require`, `import` and TypeScript (#47).
-
-- Named exports for every algorithm (`import { quickSort } from 'ts-ds'`), `defaultCompare`, `CompareFn` (#46).
-- Shared test suite for all algorithms with property-based tests (fast-check) and 100% coverage (#46).
-- `npm run typecheck` also checks the tests (`tsconfig.test.json`) (#46).
-
-### Changed
-
-- Release process moved to Git Flow: `develop` → `release/X.Y.Z` → `main` → npm, with an automatic backmerge into `develop` (#38).
-- The published package contains only the build output; it has no runtime dependencies.
-- Node.js 24 and current versions of TypeScript, Vitest and Prettier are used for development.
+- Node.js 24, TypeScript 7, Vitest 5; GitHub Actions pinned by commit SHA; Dependabot (#38).
 
 ## [1.0.32] - 2026-05-02
 
