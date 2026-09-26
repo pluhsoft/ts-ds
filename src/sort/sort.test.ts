@@ -103,8 +103,14 @@ describe.each(comparisonSorts)('$name sort (comparison)', ({ fn, stable, fast })
   it('matches Array.prototype.sort on any doubles', () => {
     fc.assert(
       fc.property(fc.array(fc.double({ noNaN: true }), { maxLength: 100 }), (input) => {
-        expect(sorted(fn, input, numberCompare)).toEqual(expected(input));
+        // -0 and 0 are equal for the comparator, so an unstable sort may swap them:
+        // compare values, not the positions of -0 and 0.
+        const withoutNegativeZero = (array: number[]) => array.map((x) => x + 0);
+        expect(withoutNegativeZero(sorted(fn, input, numberCompare))).toEqual(
+          withoutNegativeZero(expected(input)),
+        );
       }),
+      { examples: [[[0, -0]], [[-0, 0, -0]]] },
     );
   });
 
