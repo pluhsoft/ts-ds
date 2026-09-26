@@ -46,12 +46,16 @@ Do **not** change `version` in `package.json` in feature branches — CI rejects
 ## Release
 
 ```bash
-npm run release:start -- minor      # or patch | major | 1.2.0
-git push -u origin release/1.2.0
+git switch develop && git pull
+version=$(npm version minor --no-git-tag-version)   # patch | minor | major, prints vX.Y.Z
+git switch -c "release/${version#v}"
+# CHANGELOG.md: rename "## [Unreleased]" to "## [X.Y.Z] - YYYY-MM-DD", add a new empty "## [Unreleased]"
+git commit -am "chore(release): ${version#v}"
+git push -u origin "release/${version#v}"
 ```
 
-`release:start` creates `release/X.Y.Z` from `origin/develop`, bumps `package.json` and
-`package-lock.json`, turns `## [Unreleased]` into `## [X.Y.Z] - <date>` in the changelog and commits.
+`npm version` bumps `package.json` and `package-lock.json` without creating a tag — the tag is
+created by CI after publishing.
 
 Open a pull request `release/X.Y.Z` → `main` and merge it with a **merge commit**
 (squash would make `main` and `develop` diverge). After the merge the
@@ -67,8 +71,10 @@ Merge the backmerge pull request with a **merge commit**. Delete the release bra
 ## Hotfix
 
 ```bash
-npm run release:start -- patch --hotfix   # creates hotfix/X.Y.Z from main
-# fix, commit, push, open a pull request into main
+git switch main && git pull
+version=$(npm version patch --no-git-tag-version)
+git switch -c "hotfix/${version#v}"
+# fix, update CHANGELOG.md, commit, push, open a pull request into main
 ```
 
 The rest is the same as a release, including the backmerge into `develop`.
@@ -97,7 +103,7 @@ npm run format:check   # Prettier
 npm run typecheck      # TypeScript
 npm run test:coverage  # Vitest, coverage thresholds 90%
 npm run build
-npm run check:package  # tarball contents, no runtime dependencies
+npm pack --dry-run     # what would be published: only build/, README, LICENSE
 ```
 
 ## Security of the pipeline

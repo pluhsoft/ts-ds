@@ -40,8 +40,8 @@ jobs:
       - name: Read version
         id: version
         run: |
-          name=$(node -p "require('./package.json').name")
-          version=$(node -p "require('./package.json').version")
+          name=$(jq -r .name package.json)
+          version=$(jq -r .version package.json)
           echo "version=$version" >> "$GITHUB_OUTPUT"
           if npm view "$name@$version" version > /dev/null 2>&1; then
             echo "published=true" >> "$GITHUB_OUTPUT"
@@ -63,7 +63,9 @@ jobs:
           if gh release view "$tag" > /dev/null 2>&1; then
             echo "Release $tag already exists."
           else
-            node scripts/release.mjs notes "${{ steps.version.outputs.version }}" > notes.md
+            # Release notes: the CHANGELOG section of this version.
+            awk -v v="## [${{ steps.version.outputs.version }}]" \
+              'index($0, v) == 1 { found = 1; next } /^## \[/ { found = 0 } found' CHANGELOG.md > notes.md
             gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file notes.md
           fi
         env:
@@ -93,7 +95,7 @@ jobs:
             echo "Backmerge pull request #$existing is already open."
             exit 0
           fi
-          version=$(node -p "require('./package.json').version")
+          version=$(jq -r .version package.json)
           gh pr create --base develop --head main \
             --title "chore: backmerge v$version into develop" \
             --body "Automatic backmerge after release v$version. Merge with a **merge commit** (not squash)."

@@ -327,7 +327,6 @@ npm run test:watch     # run tests in watch mode
 npm run test:coverage  # tests with coverage report
 npm run typecheck      # TypeScript without emitting files
 npm run format         # format with Prettier
-npm run check:package  # check the npm tarball
 ```
 
 ### Project Structure
@@ -342,7 +341,6 @@ src/
     └── <algorithm>/
         ├── <algorithm>.ts
         └── <algorithm>.test.ts
-scripts/                # release and package checks (Node.js built-ins only)
 ```
 
 ### Contributing and releases
