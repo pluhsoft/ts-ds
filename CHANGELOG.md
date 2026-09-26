@@ -10,6 +10,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Added
 
+- `trace(algorithm, array)` records every comparison, swap and write of a sorting algorithm without
+  changing it, with counters of comparisons, reads, writes and swaps; `replay(input, steps, count)`
+  rebuilds the array after any step. Available from `ts-ds` and `ts-ds/trace` (#48).
+- `sortingAlgorithms`: name, kind, complexity, memory, stability and in-place flag of every sorting
+  algorithm. The test suite checks the stability flags against the real behaviour (#48).
+- Documentation page "Tracing and metadata" in all four languages (#48).
 - Documentation site at https://pluhsoft.github.io/ts-ds/ in English, Russian, European Portuguese
   and Spanish: a page for every sorting algorithm with the idea, a worked example, pseudocode,
   complexity analysis and literature, plus an API reference generated from JSDoc (#49).
