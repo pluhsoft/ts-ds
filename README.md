@@ -15,18 +15,46 @@ npm install ts-ds
 ## 🚀 Usage
 
 ```typescript
-import { sort } from 'ts-ds';
+import { quickSort, sort } from 'ts-ds';
 
-const array = [64, 34, 25, 12, 22, 11, 90];
-sort.selection(array);
-console.log(array); // [11, 12, 22, 25, 34, 64, 90]
+const numbers = [64, 34, 25, 12, 22, 11, 90];
+quickSort(numbers); // sorts the array itself
+console.log(numbers); // [11, 12, 22, 25, 34, 64, 90]
+
+// Custom order, any element type
+const people = [
+  { name: 'Ann', age: 30 },
+  { name: 'Bob', age: 20 },
+];
+sort.merge(people, (a, b) => a.age - b.age); // merge sort is stable
+
+// Keep the original: sort a copy
+const original = [3, 1, 2];
+const copy = [...original];
+sort.heap(copy, (a, b) => b - a); // copy: [3, 2, 1], original: [3, 1, 2]
 ```
+
+Works with ES modules and CommonJS, in Node.js 18+ and bundlers. The package is side-effect free:
+with named imports bundlers keep only the algorithms you use (`quickSort` alone is ~0.6 kB
+minified), while the `sort` object includes all of them.
+
+```typescript
+import { quickSort } from 'ts-ds'; // ES modules
+import { quickSort } from 'ts-ds/sort'; // sorting algorithms only
+const { quickSort } = require('ts-ds'); // CommonJS
+```
+
+Every sorting function sorts the array **in place** and **returns nothing** (`void`), like
+`list.sort()` in Python or `Arrays.sort()` in Java. A function either changes data or returns a
+result, never both ([command–query separation](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation)),
+so `const sorted = quickSort(data)` is a type error instead of a hidden bug.
 
 ## 📋 Implementation Checklist
 
 ### 🔹 Fundamental Data Structures
 
 #### Stack
+
 - [ ] `push(value)`
 - [ ] `pop()`
 - [ ] `peek()`
@@ -35,6 +63,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `clear()`
 
 #### Queue
+
 - [ ] `enqueue(value)`
 - [ ] `dequeue()`
 - [ ] `front()`
@@ -43,6 +72,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `clear()`
 
 #### LinkedList
+
 - [ ] `add(value)` / `append(value)`
 - [ ] `insertAt(index, value)`
 - [ ] `removeAt(index)`
@@ -55,6 +85,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `toArray()`
 
 #### DoublyLinkedList
+
 - [ ] `add(value)`
 - [ ] `insertAt(index, value)`
 - [ ] `remove(value)`
@@ -64,6 +95,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### 📊 Hash-based and Set Structures
 
 #### HashMap / Dictionary
+
 - [ ] `set(key, value)`
 - [ ] `get(key)`
 - [ ] `has(key)` / `containsKey(key)`
@@ -75,6 +107,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `clear()`
 
 #### HashSet
+
 - [ ] `add(value)`
 - [ ] `has(value)`
 - [ ] `delete(value)`
@@ -88,6 +121,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### ⚙️ Heap and Priority Structures
 
 #### Heap (Min/Max)
+
 - [ ] `push(value)` / `insert(value)`
 - [ ] `pop()` / `extractMin/Max()`
 - [ ] `peek()`
@@ -98,6 +132,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### 🌳 Tree Data Structures
 
 #### Binary Search Tree (BST)
+
 - [ ] `insert(value)`
 - [ ] `delete(value)`
 - [ ] `search(value)` / `contains(value)`
@@ -110,12 +145,14 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `isBalanced()`
 
 #### AVL Tree
+
 - [ ] `insert(value)`
 - [ ] `delete(value)`
 - [ ] `search(value)`
 - [ ] `getBalance(node)`
 
 #### Trie
+
 - [ ] `insert(word)`
 - [ ] `search(word)`
 - [ ] `startsWith(prefix)`
@@ -125,6 +162,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### 🕸️ Graph Structures
 
 #### Graph (Undirected & Directed)
+
 - [ ] `addVertex(value)`
 - [ ] `addEdge(from, to, weight?)`
 - [ ] `removeVertex(value)`
@@ -135,6 +173,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `hasEdge(from, to)`
 
 #### Graph Algorithms
+
 - [ ] `bfs(start)`
 - [ ] `dfs(start)`
 - [ ] `dijkstra(start)`
@@ -146,119 +185,26 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 
 ### 🔀 Sorting and Searching Algorithms
 
-#### Selection Sort
-- [x] `selectionSort(arr, compareFn?)`
-- [x] `selectionSort` tests
-<details>
-<summary>Selection sort details</summary>
+| Algorithm | Function                           | Best       | Average      | Worst      | Memory   | Stable |
+| --------- | ---------------------------------- | ---------- | ------------ | ---------- | -------- | ------ |
+| Bubble    | `bubbleSort` / `sort.bubble`       | O(n)       | O(n²)        | O(n²)      | O(1)     | yes    |
+| Selection | `selectionSort` / `sort.selection` | O(n²)      | O(n²)        | O(n²)      | O(1)     | no     |
+| Insertion | `insertionSort` / `sort.insertion` | O(n)       | O(n²)        | O(n²)      | O(1)     | yes    |
+| Shell     | `shellSort` / `sort.shell`         | O(n log n) | ≈ O(n^(5/4)) | O(n^(3/2)) | O(1)     | no     |
+| Merge     | `mergeSort` / `sort.merge`         | O(n)       | O(n log n)   | O(n log n) | O(n)     | yes    |
+| Quick     | `quickSort` / `sort.quick`         | O(n log n) | O(n log n)   | O(n²)      | O(log n) | no     |
+| Heap      | `heapSort` / `sort.heap`           | O(n log n) | O(n log n)   | O(n log n) | O(1)     | no     |
+| Counting  | `countingSort` / `sort.counting`   | O(n + k)   | O(n + k)     | O(n + k)   | O(n + k) | yes    |
+| Radix     | `radixSort` / `sort.radix`         | O(d(n+10)) | O(d(n+10))   | O(d(n+10)) | O(n)     | yes    |
 
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator returning negative, zero, or positive.
-- `returns`: `void`.
-- `sort.selection(array)` is an alias for `selectionSort(array)`.
-- Selection sort finds the smallest element and swaps it to the beginning.
-
-</details>
-
-#### Bubble Sort
-- [x] `bubbleSort(arr, compareFn?)`
-- [x] `bubbleSort` optimized
-<details>
-<summary>Bubble sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: `void`.
-- Bubble sort compares adjacent elements and swaps them until the array is sorted.
-- The implementation stops early when no swaps occur on a pass.
-
-</details>
-
-#### Insertion Sort
-- [x] `insertionSort(arr, compareFn?)`
-<details>
-<summary>Insertion sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: `void`.
-- Insertion sort builds a sorted prefix by moving each element into its correct position.
-
-</details>
-
-#### Merge Sort
-- [x] `mergeSort(arr, compareFn?)`
-<details>
-<summary>Merge sort details</summary>
-
-- `arr`: array to sort.
-- `compareFn`: optional comparator.
-- `returns`: new sorted array.
-- Merge sort divides the array, sorts both halves recursively, then merges them.
-
-</details>
-
-#### Quick Sort
-- [x] `quickSort(arr, compareFn?)`
-<details>
-<summary>Quick sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: sorted array (same reference).
-- Quick sort partitions by pivot and recursively sorts subarrays.
-
-</details>
-
-#### Heap Sort
-- [x] `heapSort(arr, compareFn?)`
-<details>
-<summary>Heap sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: `void`.
-- Heap sort uses a binary heap structure and repeatedly extracts the top element.
-
-</details>
-
-#### Counting Sort
-- [x] `countingSort(arr)`
-<details>
-<summary>Counting sort details</summary>
-
-- `arr`: array of numbers.
-- `returns`: sorted number array.
-- Counting sort counts value frequencies and rebuilds the result from counts.
-- This implementation supports negative values.
-
-</details>
-
-#### Radix Sort
-- [x] `radixSort(arr)`
-<details>
-<summary>Radix sort details</summary>
-
-- `arr`: array of integers.
-- `returns`: sorted number array.
-- Radix sort sorts by digit positions, processing least significant digits first.
-- The implementation handles negative numbers by sorting negatives separately.
-
-</details>
-
-#### Shell Sort
-- [x] `shellSort(arr, compareFn?)`
-<details>
-<summary>Shell sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: `void`.
-- Shell sort improves insertion sort by sorting elements at a gap distance.
-
-</details>
+- Comparison sorts take an optional `compareFn(a, b)` like `Array.prototype.sort`. The default
+  order is ascending; strings are compared by UTF-16 code units, `NaN` goes to the end.
+- Counting and radix sort work with integers only (negative values are allowed) and throw a
+  `TypeError` otherwise. `k` is `max - min + 1`, `d` is the number of decimal digits.
+- Each function's JSDoc explains the idea of the algorithm and the implementation details.
 
 #### Searching Algorithms
+
 - [ ] `linearSearch(arr, value)`
 - [ ] `binarySearch(arr, value)`
 - [ ] `interpolationSearch(arr, value)`
@@ -278,49 +224,42 @@ Andrei Pliukhaev
 
 ### Setup
 
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Make sure TypeScript is installed
+Requires Node.js 24 (see [`.nvmrc`](.nvmrc)).
+
+```bash
+git clone https://github.com/pluhsoft/ts-ds.git
+cd ts-ds
+git switch develop
+npm ci
+```
 
 ### Scripts
 
 ```bash
-# Build project
-npm run build
-
-# Run tests
-npm run test
-
-# Watch for changes
-npm run watch
-
-# Format code
-npm run format
+npm run build          # compile to build/esm and build/cjs
+npm test               # run tests once
+npm run test:watch     # run tests in watch mode
+npm run test:coverage  # tests with coverage report
+npm run typecheck      # TypeScript without emitting files
+npm run check:package  # exports and types for ESM, CommonJS and bundlers
+npm run format         # format with Prettier
 ```
 
 ### Project Structure
 
 ```
 src/
-├── index.ts          # Main entry point
-├── index.test.ts     # Main tests
+├── index.ts            # Main entry point
 └── sort/
-    ├── selection/
-    │   ├── selection.ts
-    │   ├── selection.test.ts
-    │   └── README.md
-    └── data.ts
+    ├── index.ts        # sort namespace
+    ├── utils.ts        # compare and swap helpers
+    ├── sort.test.ts    # shared tests for all algorithms
+    └── <algorithm>/
+        ├── <algorithm>.ts
+        └── <algorithm>.test.ts
 ```
 
-### Development Guidelines
+### Contributing and releases
 
-- Follow TypeScript best practices
-- Write tests for all new features
-- Use Prettier for code formatting
-- Maintain comprehensive documentation
-- Keep data structures generic using TypeScript generics
-
-### Contributing
-
-Feel free to submit issues and enhancement requests!
-
+Development follows Git Flow: `feature/*` → `develop` → `release/X.Y.Z` → `main` → npm.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full process and [CHANGELOG.md](CHANGELOG.md) for changes.

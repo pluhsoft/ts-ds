@@ -1,13 +1,51 @@
 {
   "name": "ts-ds",
-  "version": "1.0.33",
+  "version": "2.0.0",
   "description": "Data structure and algorithm in TypeScript",
-  "main": "build/index.js",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./build/cjs/index.js",
+  "types": "./build/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./build/esm/index.d.ts",
+        "default": "./build/esm/index.js"
+      },
+      "require": {
+        "types": "./build/cjs/index.d.ts",
+        "default": "./build/cjs/index.js"
+      }
+    },
+    "./sort": {
+      "import": {
+        "types": "./build/esm/sort/index.d.ts",
+        "default": "./build/esm/sort/index.js"
+      },
+      "require": {
+        "types": "./build/cjs/sort/index.d.ts",
+        "default": "./build/cjs/sort/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "build"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "build": "tsc -b",
-    "watch": "tsc --watch",
-    "test": "vitest",
-    "format": "prettier --write src/"
+    "build": "node -e \"require('fs').rmSync('build',{recursive:true,force:true})\" && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('build/cjs/package.json','{\\\"type\\\":\\\"commonjs\\\"}\\n')\"",
+    "watch": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.cjs.json --noEmit && tsc -p tsconfig.test.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:package": "publint --strict && attw --pack . --profile node16",
+    "prepack": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -25,9 +63,13 @@
   },
   "homepage": "https://github.com/pluhsoft/ts-ds#readme",
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "prettier": "^3.2.5",
-    "typescript": "^6.0.3",
-    "vitest": "^1.6.0"
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@types/node": "^24.19.0",
+    "@vitest/coverage-v8": "^5.0.2",
+    "fast-check": "^4.10.2",
+    "prettier": "^3.9.9",
+    "publint": "^0.3.24",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.2"
   }
 }
