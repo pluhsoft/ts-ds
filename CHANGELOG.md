@@ -6,6 +6,13 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+### Added
+
+- Interactive visualizer on the documentation site: bars, play/pause, step forward and back, a
+  timeline, speed, random / nearly sorted / reversed / few-unique / your own data, live counters of
+  comparisons, swaps and writes, in four languages. A dedicated page and a "Try it" block with the
+  worked example on every algorithm page (#50).
+
 ## [2.0.1] - 2026-09-26
 
 ### Added

@@ -20,6 +20,14 @@ Ordenar `[5, 2, 4, 6, 1, 3]` — o exemplo de Cormen. O prefixo ordenado está a
 
 12 comparações, 9 deslocamentos — mais uma vez, o número de inversões.
 
+## Experimente
+
+O mesmo exemplo, passo a passo. Altere os dados ou carregue em «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="insertion" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

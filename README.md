@@ -7,7 +7,8 @@ A powerful, convenient and lightweight library of data structures and algorithms
 This library provides optimized implementations of popular data structures and algorithms that every developer needs. Written in TypeScript with full type support.
 
 📖 **Documentation: [pluhsoft.github.io/ts-ds](https://pluhsoft.github.io/ts-ds/)** — every algorithm
-explained step by step, in English, Русский, Português and Español.
+explained step by step, in English, Русский, Português and Español, with an
+[interactive visualizer](https://pluhsoft.github.io/ts-ds/visualizer).
 
 ## 📦 Installation
 

@@ -21,6 +21,14 @@ Ordenamos `[5, 2, 4, 6, 1, 3]`. El prefijo ordenado está en **negrita**.
 
 15 comparaciones y solo 3 intercambios.
 
+## Pruébalo
+
+El mismo ejemplo, paso a paso. Cambia los datos o pulsa «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="selection" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

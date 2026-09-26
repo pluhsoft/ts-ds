@@ -20,6 +20,14 @@ Ordenar `[5, 2, 4, 6, 1, 3]`. A cauda ordenada está a **negrito**.
 
 15 comparações, 9 trocas. O número de trocas é igual ao número de _inversões_ — pares fora de ordem.
 
+## Experimente
+
+O mesmo exemplo, passo a passo. Altere os dados ou carregue em «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="bubble" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

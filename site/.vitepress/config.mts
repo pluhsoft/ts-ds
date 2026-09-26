@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import { defineConfig, type DefaultTheme } from 'vitepress';
 import apiSidebar from '../api/typedoc-sidebar.json' with { type: 'json' };
 
@@ -30,6 +31,7 @@ interface Labels {
   guide: string;
   gettingStarted: string;
   tracing: string;
+  visualizer: string;
   sorting: string;
   overview: string;
   api: string;
@@ -63,6 +65,7 @@ function sidebar(prefix: string, labels: Labels): DefaultTheme.SidebarItem[] {
       text: labels.sorting,
       items: [
         { text: labels.overview, link: `${prefix}/sorting/` },
+        { text: labels.visualizer, link: `${prefix}/visualizer` },
         ...algorithms.map((id) => ({
           text: labels.names?.[id] ?? names[id],
           link: `${prefix}/sorting/${id}`,
@@ -87,6 +90,7 @@ function locale(
     nav: [
       { text: labels.gettingStarted, link: `${prefix}/guide/getting-started` },
       { text: labels.sorting, link: `${prefix}/sorting/` },
+      { text: labels.visualizer, link: `${prefix}/visualizer` },
       { text: labels.api, link: '/api/' },
     ],
     sidebar: sidebar(prefix, labels),
@@ -119,6 +123,7 @@ const en = locale('', 'en', 'English', 'Data structures and algorithms in TypeSc
   guide: 'Guide',
   gettingStarted: 'Getting started',
   tracing: 'Tracing and metadata',
+  visualizer: 'Visualizer',
   sorting: 'Sorting',
   overview: 'Overview and comparison',
   api: 'API reference',
@@ -148,6 +153,7 @@ const ru = locale(
     guide: 'Руководство',
     gettingStarted: 'Начало работы',
     tracing: 'Трассировка и метаданные',
+    visualizer: 'Визуализатор',
     sorting: 'Сортировки',
     overview: 'Обзор и сравнение',
     api: 'Справочник API',
@@ -189,6 +195,7 @@ const pt = locale(
     guide: 'Guia',
     gettingStarted: 'Primeiros passos',
     tracing: 'Rastreio e metadados',
+    visualizer: 'Visualizador',
     sorting: 'Ordenação',
     overview: 'Visão geral e comparação',
     api: 'Referência da API',
@@ -230,6 +237,7 @@ const es = locale(
     guide: 'Guía',
     gettingStarted: 'Primeros pasos',
     tracing: 'Trazado y metadatos',
+    visualizer: 'Visualizador',
     sorting: 'Ordenamiento',
     overview: 'Resumen y comparación',
     api: 'Referencia de la API',
@@ -251,8 +259,13 @@ export default defineConfig({
   title: 'ts-ds',
   base: '/ts-ds/',
   cleanUrls: true,
+  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/ts-ds/favicon.svg' }]],
   lastUpdated: true,
   markdown: { math: true },
+  vite: {
+    // Pages use the library from the sources in this repository, as `import … from 'ts-ds'`.
+    resolve: { alias: { 'ts-ds': fileURLToPath(new URL('../../src/index.ts', import.meta.url)) } },
+  },
   locales: {
     root: { ...en, themeConfig: en },
     ru: { ...ru, link: '/ru/', themeConfig: ru },

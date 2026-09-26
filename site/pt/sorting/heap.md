@@ -37,6 +37,14 @@ O heap como array: `6, 5, 4, 2, 1, 3`.
 | 4     | 1, 2, **3, 4, 5, 6**       | 2, 1, **3, 4, 5, 6**   |
 | 5     | 1, **2, 3, 4, 5, 6**       | **1, 2, 3, 4, 5, 6**   |
 
+## Experimente
+
+O mesmo exemplo, passo a passo. Altere os dados ou carregue em «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="heap" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

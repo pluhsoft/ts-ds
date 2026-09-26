@@ -27,6 +27,14 @@ Colocando a partir do fim: o último `3` vai para a posição `7 − 1 = 6`, o �
 `2 − 1 = 1`, o `3` seguinte para `6 − 1 = 5`, e assim por diante. Resultado:
 `0, 0, 2, 2, 3, 3, 3, 5`.
 
+## Experimente
+
+O mesmo exemplo, passo a passo. Altere os dados ou carregue em «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="counting" :input="[2, 5, 3, 0, 2, 3, 0, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

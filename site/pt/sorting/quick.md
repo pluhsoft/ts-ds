@@ -41,6 +41,14 @@ Ordenar `[5, 2, 4, 6, 1, 3]`.
 
 **Recursão.** `[1, 2, 3]` e `[6, 5]` ordenam-se da mesma forma: `1, 2, 3, 4, 5, 6`.
 
+## Experimente
+
+O mesmo exemplo, passo a passo. Altere os dados ou carregue em «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="quick" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

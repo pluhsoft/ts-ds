@@ -20,6 +20,14 @@ Sorting `[5, 2, 4, 6, 1, 3]`. The sorted prefix is in **bold**.
 
 15 comparisons, only 3 swaps.
 
+## Try it
+
+The same example, step by step. Change the data or press Play.
+
+<ClientOnly>
+  <SortVisualizer algorithm="selection" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocode
 
 ```text
