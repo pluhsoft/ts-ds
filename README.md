@@ -226,10 +226,9 @@ See [Tracing and metadata](https://pluhsoft.github.io/ts-ds/guide/tracing).
 
 #### Searching Algorithms
 
-- [ ] `linearSearch(arr, value)`
-- [ ] `binarySearch(arr, value)`
-- [ ] `interpolationSearch(arr, value)`
-- [ ] `exponentialSearch(arr, value)`
+`linearSearch`, `binarySearch`, `exponentialSearch`, `interpolationSearch`, `lowerBound`,
+`upperBound` — return the index of the first match or `-1`. See
+[Searching](https://pluhsoft.github.io/ts-ds/search/).
 
 ## 📄 License
 

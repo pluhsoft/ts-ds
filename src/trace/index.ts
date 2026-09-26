@@ -8,3 +8,5 @@ export type {
   TraceStats,
   WriteStep,
 } from './trace.js';
+export { traceSearch } from './search.js';
+export type { SearchStep, SearchTrace } from './search.js';

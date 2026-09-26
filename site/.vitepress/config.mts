@@ -32,6 +32,7 @@ interface Labels {
   gettingStarted: string;
   tracing: string;
   visualizer: string;
+  search: string;
   sorting: string;
   overview: string;
   api: string;
@@ -72,6 +73,7 @@ function sidebar(prefix: string, labels: Labels): DefaultTheme.SidebarItem[] {
         })),
       ],
     },
+    { text: labels.search, items: [{ text: labels.search, link: '/search/' }] },
     { text: labels.api, link: '/api/', collapsed: true, items: apiSidebar },
   ];
 }
@@ -124,6 +126,7 @@ const en = locale('', 'en', 'English', 'Data structures and algorithms in TypeSc
   gettingStarted: 'Getting started',
   tracing: 'Tracing and metadata',
   visualizer: 'Visualizer',
+  search: 'Searching',
   sorting: 'Sorting',
   overview: 'Overview and comparison',
   api: 'API reference',
@@ -154,6 +157,7 @@ const ru = locale(
     gettingStarted: 'Начало работы',
     tracing: 'Трассировка и метаданные',
     visualizer: 'Визуализатор',
+    search: 'Поиск (English)',
     sorting: 'Сортировки',
     overview: 'Обзор и сравнение',
     api: 'Справочник API',
@@ -196,6 +200,7 @@ const pt = locale(
     gettingStarted: 'Primeiros passos',
     tracing: 'Rastreio e metadados',
     visualizer: 'Visualizador',
+    search: 'Pesquisa (English)',
     sorting: 'Ordenação',
     overview: 'Visão geral e comparação',
     api: 'Referência da API',
@@ -238,6 +243,7 @@ const es = locale(
     gettingStarted: 'Primeros pasos',
     tracing: 'Trazado y metadatos',
     visualizer: 'Visualizador',
+    search: 'Búsqueda (English)',
     sorting: 'Ordenamiento',
     overview: 'Resumen y comparación',
     api: 'Referencia de la API',

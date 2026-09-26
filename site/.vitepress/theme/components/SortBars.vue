@@ -6,6 +6,10 @@ const props = defineProps<{
   compared?: number[];
   changed?: number[];
   done?: boolean;
+  /** Indices shown as found (green), e.g. the result of a search. */
+  found?: number[];
+  /** Indices already looked at (dimmed). */
+  visited?: number[];
   height?: number;
 }>();
 
@@ -21,9 +25,10 @@ function barHeight(value: number): number {
 }
 
 function barClass(index: number): string {
-  if (props.done) return 'bar done';
+  if (props.done || props.found?.includes(index)) return 'bar done';
   if (props.changed?.includes(index)) return 'bar changed';
   if (props.compared?.includes(index)) return 'bar compared';
+  if (props.visited?.includes(index)) return 'bar visited';
   return 'bar';
 }
 </script>
@@ -72,6 +77,9 @@ svg {
 }
 .bar.changed {
   fill: var(--ts-ds-changed);
+}
+.bar.visited {
+  opacity: 0.35;
 }
 .bar.done {
   fill: var(--ts-ds-done);

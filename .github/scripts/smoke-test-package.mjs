@@ -31,6 +31,8 @@ try {
 const { quickSort, sort } = require('ts-ds');
 const { mergeSort, sortingAlgorithms } = require('ts-ds/sort');
 const { trace } = require('ts-ds/trace');
+const { binarySearch } = require('ts-ds/search');
+assert.strictEqual(binarySearch([1, 3, 5], 5), 2);
 const a = [3, 1, 2];
 quickSort(a);
 assert.deepStrictEqual(a, [1, 2, 3]);
