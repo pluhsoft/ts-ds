@@ -1,9 +1,19 @@
 import { describe, expect, it } from 'vitest';
-import { sort } from '../..';
+import { COUNTING_SORT_MAX_RANGE, countingSort } from './counting';
 
 describe('counting sort', () => {
-  it('sorts a simple number array', () => {
-    const result = sort.counting([4, 2, 1, 3, 2]);
-    expect(result).toEqual([1, 2, 2, 3, 4]);
+  it('handles a range exactly at the limit', () => {
+    expect(countingSort([COUNTING_SORT_MAX_RANGE - 1, 0])).toEqual([
+      0,
+      COUNTING_SORT_MAX_RANGE - 1,
+    ]);
+  });
+
+  it('rejects a range above the limit instead of running out of memory', () => {
+    expect(() => countingSort([0, 1e9])).toThrow(RangeError);
+  });
+
+  it('accepts a narrow range of huge values', () => {
+    expect(countingSort([1e15 + 2, 1e15, 1e15 + 1])).toEqual([1e15, 1e15 + 1, 1e15 + 2]);
   });
 });

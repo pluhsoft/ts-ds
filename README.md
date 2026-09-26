@@ -15,12 +15,25 @@ npm install ts-ds
 ## 🚀 Usage
 
 ```typescript
-import { sort } from 'ts-ds';
+import { quickSort, sort } from 'ts-ds';
 
-const array = [64, 34, 25, 12, 22, 11, 90];
-sort.selection(array);
-console.log(array); // [11, 12, 22, 25, 34, 64, 90]
+const numbers = [64, 34, 25, 12, 22, 11, 90];
+quickSort(numbers); // sorts in place and returns the same array
+console.log(numbers); // [11, 12, 22, 25, 34, 64, 90]
+
+// Custom order, any element type
+const people = [
+  { name: 'Ann', age: 30 },
+  { name: 'Bob', age: 20 },
+];
+sort.merge(people, (a, b) => a.age - b.age); // merge sort is stable
+
+// Descending order
+sort.heap(numbers, (a, b) => b - a);
 ```
+
+Every sorting function works like `Array.prototype.sort`: it sorts the array **in place**
+and returns **the same array**. Copy the array first (`[...array]`) to keep the original.
 
 ## 📋 Implementation Checklist
 
@@ -158,135 +171,23 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 
 ### 🔀 Sorting and Searching Algorithms
 
-#### Selection Sort
+| Algorithm | Function                           | Best       | Average      | Worst      | Memory   | Stable |
+| --------- | ---------------------------------- | ---------- | ------------ | ---------- | -------- | ------ |
+| Bubble    | `bubbleSort` / `sort.bubble`       | O(n)       | O(n²)        | O(n²)      | O(1)     | yes    |
+| Selection | `selectionSort` / `sort.selection` | O(n²)      | O(n²)        | O(n²)      | O(1)     | no     |
+| Insertion | `insertionSort` / `sort.insertion` | O(n)       | O(n²)        | O(n²)      | O(1)     | yes    |
+| Shell     | `shellSort` / `sort.shell`         | O(n log n) | ≈ O(n^(5/4)) | O(n^(3/2)) | O(1)     | no     |
+| Merge     | `mergeSort` / `sort.merge`         | O(n)       | O(n log n)   | O(n log n) | O(n)     | yes    |
+| Quick     | `quickSort` / `sort.quick`         | O(n log n) | O(n log n)   | O(n²)      | O(log n) | no     |
+| Heap      | `heapSort` / `sort.heap`           | O(n log n) | O(n log n)   | O(n log n) | O(1)     | no     |
+| Counting  | `countingSort` / `sort.counting`   | O(n + k)   | O(n + k)     | O(n + k)   | O(n + k) | yes    |
+| Radix     | `radixSort` / `sort.radix`         | O(d(n+10)) | O(d(n+10))   | O(d(n+10)) | O(n)     | yes    |
 
-- [x] `selectionSort(arr, compareFn?)`
-- [x] `selectionSort` tests
-
-<details>
-<summary>Selection sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator returning negative, zero, or positive.
-- `returns`: `void`.
-- `sort.selection(array)` is an alias for `selectionSort(array)`.
-- Selection sort finds the smallest element and swaps it to the beginning.
-
-</details>
-
-#### Bubble Sort
-
-- [x] `bubbleSort(arr, compareFn?)`
-- [x] `bubbleSort` optimized
-
-<details>
-<summary>Bubble sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: `void`.
-- Bubble sort compares adjacent elements and swaps them until the array is sorted.
-- The implementation stops early when no swaps occur on a pass.
-
-</details>
-
-#### Insertion Sort
-
-- [x] `insertionSort(arr, compareFn?)`
-
-<details>
-<summary>Insertion sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: `void`.
-- Insertion sort builds a sorted prefix by moving each element into its correct position.
-
-</details>
-
-#### Merge Sort
-
-- [x] `mergeSort(arr, compareFn?)`
-
-<details>
-<summary>Merge sort details</summary>
-
-- `arr`: array to sort.
-- `compareFn`: optional comparator.
-- `returns`: new sorted array.
-- Merge sort divides the array, sorts both halves recursively, then merges them.
-
-</details>
-
-#### Quick Sort
-
-- [x] `quickSort(arr, compareFn?)`
-
-<details>
-<summary>Quick sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: sorted array (same reference).
-- Quick sort partitions by pivot and recursively sorts subarrays.
-
-</details>
-
-#### Heap Sort
-
-- [x] `heapSort(arr, compareFn?)`
-
-<details>
-<summary>Heap sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: `void`.
-- Heap sort uses a binary heap structure and repeatedly extracts the top element.
-
-</details>
-
-#### Counting Sort
-
-- [x] `countingSort(arr)`
-
-<details>
-<summary>Counting sort details</summary>
-
-- `arr`: array of numbers.
-- `returns`: sorted number array.
-- Counting sort counts value frequencies and rebuilds the result from counts.
-- This implementation supports negative values.
-
-</details>
-
-#### Radix Sort
-
-- [x] `radixSort(arr)`
-
-<details>
-<summary>Radix sort details</summary>
-
-- `arr`: array of integers.
-- `returns`: sorted number array.
-- Radix sort sorts by digit positions, processing least significant digits first.
-- The implementation handles negative numbers by sorting negatives separately.
-
-</details>
-
-#### Shell Sort
-
-- [x] `shellSort(arr, compareFn?)`
-
-<details>
-<summary>Shell sort details</summary>
-
-- `arr`: array to sort in place.
-- `compareFn`: optional comparator.
-- `returns`: `void`.
-- Shell sort improves insertion sort by sorting elements at a gap distance.
-
-</details>
+- Comparison sorts take an optional `compareFn(a, b)` like `Array.prototype.sort`. The default
+  order is ascending; strings are compared by UTF-16 code units, `NaN` goes to the end.
+- Counting and radix sort work with integers only (negative values are allowed) and throw a
+  `TypeError` otherwise. `k` is `max - min + 1`, `d` is the number of decimal digits.
+- Each function's JSDoc explains the idea of the algorithm and the implementation details.
 
 #### Searching Algorithms
 
@@ -334,10 +235,10 @@ npm run format         # format with Prettier
 ```
 src/
 ├── index.ts            # Main entry point
-├── index.test.ts       # Main tests
 └── sort/
     ├── index.ts        # sort namespace
     ├── utils.ts        # compare and swap helpers
+    ├── sort.test.ts    # shared tests for all algorithms
     └── <algorithm>/
         ├── <algorithm>.ts
         └── <algorithm>.test.ts

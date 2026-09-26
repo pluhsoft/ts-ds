@@ -1,31 +1,37 @@
-export { selectionSort } from './selection/selection';
-export { bubbleSort } from './bubble/bubble';
-export { insertionSort } from './insertion/insertion';
-export { mergeSort } from './merge/merge';
-export { quickSort } from './quick/quick';
-export { heapSort } from './heap/heap';
-export { countingSort } from './counting/counting';
-export { radixSort } from './radix/radix';
-export { shellSort } from './shell/shell';
-
-import { selectionSort } from './selection/selection';
 import { bubbleSort } from './bubble/bubble';
+import { countingSort } from './counting/counting';
+import { heapSort } from './heap/heap';
 import { insertionSort } from './insertion/insertion';
 import { mergeSort } from './merge/merge';
 import { quickSort } from './quick/quick';
-import { heapSort } from './heap/heap';
-import { countingSort } from './counting/counting';
 import { radixSort } from './radix/radix';
+import { selectionSort } from './selection/selection';
 import { shellSort } from './shell/shell';
 
+export {
+  bubbleSort,
+  countingSort,
+  heapSort,
+  insertionSort,
+  mergeSort,
+  quickSort,
+  radixSort,
+  selectionSort,
+  shellSort,
+};
+export { COUNTING_SORT_MAX_RANGE } from './counting/counting';
+export { defaultCompare } from './utils';
+export type { CompareFn } from './utils';
+
+/** All sorting algorithms under short names: `sort.quick(array)`. */
 export const sort = {
-  selection: selectionSort,
   bubble: bubbleSort,
+  counting: countingSort,
+  heap: heapSort,
   insertion: insertionSort,
   merge: mergeSort,
   quick: quickSort,
-  heap: heapSort,
-  counting: countingSort,
   radix: radixSort,
+  selection: selectionSort,
   shell: shellSort,
 };
