@@ -8,6 +8,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Added
 
+- Visualizer: the pseudocode of the algorithm with the line being executed highlighted, and a race
+  mode that runs two algorithms side by side on the same data (#67).
 - Interactive visualizer on the documentation site: bars, play/pause, step forward and back, a
   timeline, speed, random / nearly sorted / reversed / few-unique / your own data, live counters of
   comparisons, swaps and writes, in four languages. A dedicated page and a "Try it" block with the
@@ -18,6 +20,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - `sortingAlgorithms`: name, kind, complexity, memory, stability and in-place flag of every sorting
   algorithm. The test suite checks the stability flags against the real behaviour (#48).
 - Documentation page "Tracing and metadata" in all four languages (#48).
+
+### Fixed
+
+- `trace` no longer reports two consecutive writes as a swap when the algorithm had read more than
+  the two exchanged positions (e.g. radix sort writing its result back) (#67).
 
 ## [2.0.1] - 2026-09-26
 

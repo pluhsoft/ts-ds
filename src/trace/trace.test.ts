@@ -99,3 +99,13 @@ describe('replay', () => {
     expect(replay(input, steps, 4)).toEqual([1, 2, 3]);
   });
 });
+
+describe('swap detection', () => {
+  it('does not treat writing back a sorted result as swaps', () => {
+    // Radix sort reads the whole array, then writes the result back position by position.
+    const radix = sortingAlgorithms.find((a) => a.id === 'radix')!;
+    const { steps, stats } = trace(radix.sort as (array: number[]) => void, [2, 1]);
+    expect(stats.swaps).toBe(0);
+    expect(steps.map((s) => s.type)).toEqual(['write', 'write']);
+  });
+});

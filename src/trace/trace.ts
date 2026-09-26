@@ -105,8 +105,9 @@ export function trace<T>(
     },
   });
 
-  // A swap `t = a[i]; a[i] = a[j]; a[j] = t` reads i, then j, writes i, then writes j without
-  // reading anything in between. Two writes that follow this pattern are merged into one swap.
+  // A swap `t = a[i]; a[i] = a[j]; a[j] = t` reads exactly i and j since the previous step, writes
+  // i, then writes j without reading anything in between. Two writes that follow this pattern are
+  // merged into one swap.
   let swapCandidate: { write: WriteStep<T>; partner: number } | undefined;
 
   function recordWrite(write: WriteStep<T>): void {
@@ -128,9 +129,9 @@ export function trace<T>(
     }
 
     steps.push(write);
-    const [readI, readJ] = reads.slice(-2);
+    const [readI, readJ] = reads;
     swapCandidate =
-      readI === write.index && readJ !== undefined && readJ !== readI
+      reads.length === 2 && readI === write.index && readJ !== readI
         ? { write, partner: readJ }
         : undefined;
   }

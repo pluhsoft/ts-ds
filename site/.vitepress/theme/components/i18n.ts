@@ -29,6 +29,10 @@ export interface VisualizerText {
   invalidInput: string;
   legendCompare: string;
   legendChange: string;
+  pseudocode: string;
+  first: string;
+  second: string;
+  finishedIn: (steps: number) => string;
   names: Record<string, string>;
 }
 
@@ -63,6 +67,10 @@ const en: VisualizerText = {
   invalidInput: 'Enter 2 to 60 integers separated by commas.',
   legendCompare: 'compared',
   legendChange: 'changed',
+  pseudocode: 'Pseudocode',
+  first: 'First',
+  second: 'Second',
+  finishedIn: (steps) => `Done in ${steps} steps`,
   names: {},
 };
 
@@ -97,6 +105,10 @@ const ru: VisualizerText = {
   invalidInput: 'Введите от 2 до 60 целых чисел через запятую.',
   legendCompare: 'сравнение',
   legendChange: 'изменение',
+  pseudocode: 'Псевдокод',
+  first: 'Первый',
+  second: 'Второй',
+  finishedIn: (steps) => `Готово за ${steps} шагов`,
   names: {
     bubble: 'Пузырьком',
     selection: 'Выбором',
@@ -141,6 +153,10 @@ const pt: VisualizerText = {
   invalidInput: 'Introduza entre 2 e 60 inteiros separados por vírgulas.',
   legendCompare: 'comparação',
   legendChange: 'alteração',
+  pseudocode: 'Pseudocódigo',
+  first: 'Primeiro',
+  second: 'Segundo',
+  finishedIn: (steps) => `Terminado em ${steps} passos`,
   names: {
     bubble: 'Flutuação',
     selection: 'Seleção',
@@ -185,6 +201,10 @@ const es: VisualizerText = {
   invalidInput: 'Introduce entre 2 y 60 enteros separados por comas.',
   legendCompare: 'comparación',
   legendChange: 'cambio',
+  pseudocode: 'Pseudocódigo',
+  first: 'Primero',
+  second: 'Segundo',
+  finishedIn: (steps) => `Terminado en ${steps} pasos`,
   names: {
     bubble: 'Burbuja',
     selection: 'Selección',

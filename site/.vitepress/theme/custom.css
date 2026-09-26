@@ -1,0 +1,7 @@
+:root {
+  --ts-ds-bar: var(--vp-c-brand-soft);
+  --ts-ds-bar-stroke: var(--vp-c-brand-1);
+  --ts-ds-compared: #f5b400;
+  --ts-ds-changed: #e5484d;
+  --ts-ds-done: #30a46c;
+}
