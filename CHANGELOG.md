@@ -6,6 +6,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-09-26
+
 ### Added
 
 - Documentation site at https://pluhsoft.github.io/ts-ds/ in English, Russian, European Portuguese
