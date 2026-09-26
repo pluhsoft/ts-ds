@@ -29,6 +29,7 @@ interface Labels {
   ui?: UiLabels;
   guide: string;
   gettingStarted: string;
+  tracing: string;
   sorting: string;
   overview: string;
   api: string;
@@ -53,7 +54,10 @@ function sidebar(prefix: string, labels: Labels): DefaultTheme.SidebarItem[] {
   return [
     {
       text: labels.guide,
-      items: [{ text: labels.gettingStarted, link: `${prefix}/guide/getting-started` }],
+      items: [
+        { text: labels.gettingStarted, link: `${prefix}/guide/getting-started` },
+        { text: labels.tracing, link: `${prefix}/guide/tracing` },
+      ],
     },
     {
       text: labels.sorting,
@@ -114,6 +118,7 @@ function searchLocale(ui: UiLabels) {
 const en = locale('', 'en', 'English', 'Data structures and algorithms in TypeScript, explained.', {
   guide: 'Guide',
   gettingStarted: 'Getting started',
+  tracing: 'Tracing and metadata',
   sorting: 'Sorting',
   overview: 'Overview and comparison',
   api: 'API reference',
@@ -142,6 +147,7 @@ const ru = locale(
     ui: ruUi,
     guide: 'Руководство',
     gettingStarted: 'Начало работы',
+    tracing: 'Трассировка и метаданные',
     sorting: 'Сортировки',
     overview: 'Обзор и сравнение',
     api: 'Справочник API',
@@ -182,6 +188,7 @@ const pt = locale(
     ui: ptUi,
     guide: 'Guia',
     gettingStarted: 'Primeiros passos',
+    tracing: 'Rastreio e metadados',
     sorting: 'Ordenação',
     overview: 'Visão geral e comparação',
     api: 'Referência da API',
@@ -222,6 +229,7 @@ const es = locale(
     ui: esUi,
     guide: 'Guía',
     gettingStarted: 'Primeros pasos',
+    tracing: 'Trazado y metadatos',
     sorting: 'Ordenamiento',
     overview: 'Resumen y comparación',
     api: 'Referencia de la API',

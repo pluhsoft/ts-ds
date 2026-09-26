@@ -44,6 +44,7 @@ minified), while the `sort` object includes all of them.
 ```typescript
 import { quickSort } from 'ts-ds'; // ES modules
 import { quickSort } from 'ts-ds/sort'; // sorting algorithms only
+import { trace } from 'ts-ds/trace'; // tracing only
 const { quickSort } = require('ts-ds'); // CommonJS
 ```
 
@@ -51,6 +52,21 @@ Every sorting function sorts the array **in place** and **returns nothing** (`vo
 `list.sort()` in Python or `Arrays.sort()` in Java. A function either changes data or returns a
 result, never both ([command–query separation](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation)),
 so `const sorted = quickSort(data)` is a type error instead of a hidden bug.
+
+### Tracing
+
+`trace` records every comparison, swap and write of an algorithm without changing it — for
+visualizations and lab work. `sortingAlgorithms` describes every algorithm (complexity, stability).
+
+```typescript
+import { bubbleSort, trace } from 'ts-ds';
+
+const { steps, stats } = trace(bubbleSort, [3, 1, 2]);
+// stats: { comparisons: 3, reads: 10, writes: 4, swaps: 2 }
+// steps: [{ type: 'compare', values: [3, 1], indices: [0, 1], result: 1 }, { type: 'swap', i: 0, j: 1 }, …]
+```
+
+See [Tracing and metadata](https://pluhsoft.github.io/ts-ds/guide/tracing).
 
 ## 📋 Implementation Checklist
 

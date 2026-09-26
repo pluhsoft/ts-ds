@@ -2,20 +2,12 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import * as library from '../index.js';
 import {
-  bubbleSort,
   type CompareFn,
-  countingSort,
-  heapSort,
-  insertionSort,
-  mergeSort,
+  type ComparisonSortingAlgorithm,
   quickSort,
-  radixSort,
-  selectionSort,
-  shellSort,
   sort,
+  sortingAlgorithms,
 } from './index.js';
-
-type ComparisonSort = <T>(array: T[], compareFn?: CompareFn<T>) => void;
 
 /** Sorts a copy of `input` in place with `fn` and returns the copy. */
 function sorted<T>(
@@ -28,20 +20,20 @@ function sorted<T>(
   return array;
 }
 
-const comparisonSorts: { name: string; fn: ComparisonSort; stable: boolean; fast: boolean }[] = [
-  { name: 'bubble', fn: bubbleSort, stable: true, fast: false },
-  { name: 'selection', fn: selectionSort, stable: false, fast: false },
-  { name: 'insertion', fn: insertionSort, stable: true, fast: false },
-  { name: 'shell', fn: shellSort, stable: false, fast: true },
-  { name: 'merge', fn: mergeSort, stable: true, fast: true },
-  { name: 'quick', fn: quickSort, stable: false, fast: true },
-  { name: 'heap', fn: heapSort, stable: false, fast: true },
-];
+// The suites are generated from the metadata, so the documented properties (stability, speed)
+// are checked against the real behaviour.
+const comparisonSorts = sortingAlgorithms
+  .filter((a): a is ComparisonSortingAlgorithm => a.kind === 'comparison')
+  .map((a) => ({
+    name: a.id,
+    fn: a.sort,
+    stable: a.stable,
+    fast: a.complexity.average !== 'O(n²)',
+  }));
 
-const integerSorts = [
-  { name: 'counting', fn: countingSort },
-  { name: 'radix', fn: radixSort },
-];
+const integerSorts = sortingAlgorithms
+  .filter((a) => a.kind === 'integer')
+  .map((a) => ({ name: a.id, fn: a.sort as (array: number[]) => void }));
 
 const allSorts = [...comparisonSorts, ...integerSorts];
 
@@ -114,15 +106,22 @@ describe.each(comparisonSorts)('$name sort (comparison)', ({ fn, stable, fast })
     );
   });
 
+  const keepsOrderOfEqualElements = fc.property(
+    fc.array(fc.integer({ min: 0, max: 5 }), { maxLength: 100 }),
+    (keys) => {
+      const items = keys.map((key, index) => ({ key, index }));
+      const result = sorted(fn, items, (a, b) => a.key - b.key);
+      const byKeyThenIndex = [...items].sort((a, b) => a.key - b.key || a.index - b.index);
+      expect(result).toEqual(byKeyThenIndex);
+    },
+  );
+
   it.runIf(stable)('is stable: keeps the order of equal elements', () => {
-    fc.assert(
-      fc.property(fc.array(fc.integer({ min: 0, max: 5 }), { maxLength: 100 }), (keys) => {
-        const items = keys.map((key, index) => ({ key, index }));
-        const result = sorted(fn, items, (a, b) => a.key - b.key);
-        const byKeyThenIndex = [...items].sort((a, b) => a.key - b.key || a.index - b.index);
-        expect(result).toEqual(byKeyThenIndex);
-      }),
-    );
+    fc.assert(keepsOrderOfEqualElements);
+  });
+
+  it.runIf(!stable)('is not stable: some input changes the order of equal elements', () => {
+    expect(fc.check(keepsOrderOfEqualElements).failed).toBe(true);
   });
 
   describe.runIf(fast)('large inputs (100 000 elements)', () => {
@@ -158,8 +157,16 @@ describe('public API', () => {
     expect(Object.keys(sort).sort()).toEqual(allSorts.map((s) => s.name).sort());
   });
 
+  it('describes every algorithm of the sort object in sortingAlgorithms', () => {
+    for (const algorithm of sortingAlgorithms) {
+      expect(sort[algorithm.id as keyof typeof sort]).toBe(algorithm.sort);
+    }
+  });
+
   it('re-exports the sort namespace and named functions from the package root', () => {
     expect(library.sort).toBe(sort);
     expect(library.quickSort).toBe(quickSort);
+    expect(library.sortingAlgorithms).toBe(sortingAlgorithms);
+    expect(typeof library.trace).toBe('function');
   });
 });

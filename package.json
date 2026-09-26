@@ -27,6 +27,16 @@
         "default": "./build/cjs/sort/index.js"
       }
     },
+    "./trace": {
+      "import": {
+        "types": "./build/esm/trace/index.d.ts",
+        "default": "./build/esm/trace/index.js"
+      },
+      "require": {
+        "types": "./build/cjs/trace/index.d.ts",
+        "default": "./build/cjs/trace/index.js"
+      }
+    },
     "./package.json": "./package.json"
   },
   "files": [
