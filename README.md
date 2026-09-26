@@ -18,7 +18,7 @@ npm install ts-ds
 import { quickSort, sort } from 'ts-ds';
 
 const numbers = [64, 34, 25, 12, 22, 11, 90];
-quickSort(numbers); // sorts in place and returns the same array
+quickSort(numbers); // sorts the array itself
 console.log(numbers); // [11, 12, 22, 25, 34, 64, 90]
 
 // Custom order, any element type
@@ -28,12 +28,16 @@ const people = [
 ];
 sort.merge(people, (a, b) => a.age - b.age); // merge sort is stable
 
-// Descending order
-sort.heap(numbers, (a, b) => b - a);
+// Keep the original: sort a copy
+const original = [3, 1, 2];
+const copy = [...original];
+sort.heap(copy, (a, b) => b - a); // copy: [3, 2, 1], original: [3, 1, 2]
 ```
 
-Every sorting function works like `Array.prototype.sort`: it sorts the array **in place**
-and returns **the same array**. Copy the array first (`[...array]`) to keep the original.
+Every sorting function sorts the array **in place** and **returns nothing** (`void`), like
+`list.sort()` in Python or `Arrays.sort()` in Java. A function either changes data or returns a
+result, never both ([command–query separation](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation)),
+so `const sorted = quickSort(data)` is a type error instead of a hidden bug.
 
 ## 📋 Implementation Checklist
 

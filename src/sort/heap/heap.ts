@@ -14,9 +14,9 @@ import { CompareFn, defaultCompare, swap } from '../utils';
  * @template T
  * @param {T[]} array - Array to sort. It is modified.
  * @param {CompareFn<T>} [compareFn] - Order of elements, ascending by default.
- * @returns {T[]} The same array, sorted.
+ * @returns {void} Nothing — `array` itself is sorted.
  */
-export function heapSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): T[] {
+export function heapSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): void {
   const n = array.length;
 
   for (let i = Math.floor(n / 2) - 1; i >= 0; i -= 1) {
@@ -27,7 +27,6 @@ export function heapSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare
     swap(array, 0, end);
     siftDown(array, 0, end, compareFn);
   }
-  return array;
 }
 
 /** Moves `array[root]` down until both children are not greater. The heap is `array[0..size-1]`. */

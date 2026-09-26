@@ -13,9 +13,9 @@ import { CompareFn, defaultCompare, swap } from '../utils';
  * @template T
  * @param {T[]} array - Array to sort. It is modified.
  * @param {CompareFn<T>} [compareFn] - Order of elements, ascending by default.
- * @returns {T[]} The same array, sorted.
+ * @returns {void} Nothing — `array` itself is sorted.
  */
-export function bubbleSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): T[] {
+export function bubbleSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): void {
   for (let pass = 0; pass < array.length - 1; pass += 1) {
     let swapped = false;
     for (let i = 0; i < array.length - pass - 1; i += 1) {
@@ -28,5 +28,4 @@ export function bubbleSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompa
       break;
     }
   }
-  return array;
 }

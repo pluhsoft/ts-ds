@@ -15,7 +15,18 @@ import {
   sort,
 } from './index';
 
-type ComparisonSort = <T>(array: T[], compareFn?: CompareFn<T>) => T[];
+type ComparisonSort = <T>(array: T[], compareFn?: CompareFn<T>) => void;
+
+/** Sorts a copy of `input` in place with `fn` and returns the copy. */
+function sorted<T>(
+  fn: (array: T[], compareFn?: CompareFn<T>) => void,
+  input: T[],
+  compareFn?: CompareFn<T>,
+): T[] {
+  const array = [...input];
+  fn(array, compareFn);
+  return array;
+}
 
 const comparisonSorts: { name: string; fn: ComparisonSort; stable: boolean; fast: boolean }[] = [
   { name: 'bubble', fn: bubbleSort, stable: true, fast: false },
@@ -53,20 +64,19 @@ const cases: Record<string, number[]> = {
 
 describe.each(allSorts)('$name sort', ({ fn }) => {
   it.each(Object.entries(cases))('sorts %s', (_, input) => {
-    const array = [...input];
-    expect(fn(array)).toEqual(expected(input));
+    expect(sorted<number>(fn, input)).toEqual(expected(input));
   });
 
-  it('sorts in place and returns the same array', () => {
+  it('sorts in place and returns nothing (command–query separation)', () => {
     const array = [3, 1, 2];
-    expect(fn(array)).toBe(array);
+    expect(fn(array)).toBeUndefined();
     expect(array).toEqual([1, 2, 3]);
   });
 
   it('matches Array.prototype.sort on any integer array', () => {
     fc.assert(
       fc.property(fc.array(fc.integer({ min: -1000, max: 1000 }), { maxLength: 200 }), (input) => {
-        expect(fn([...input])).toEqual(expected(input));
+        expect(sorted<number>(fn, input)).toEqual(expected(input));
       }),
     );
   });
@@ -74,26 +84,26 @@ describe.each(allSorts)('$name sort', ({ fn }) => {
 
 describe.each(comparisonSorts)('$name sort (comparison)', ({ fn, stable, fast }) => {
   it('uses the comparator for descending order', () => {
-    expect(fn([1, 3, 2], (a, b) => b - a)).toEqual([3, 2, 1]);
+    expect(sorted(fn, [1, 3, 2], (a, b) => b - a)).toEqual([3, 2, 1]);
   });
 
   it('sorts strings by code units by default', () => {
-    expect(fn(['b', 'a', 'B', 'c'])).toEqual(['B', 'a', 'b', 'c']);
+    expect(sorted(fn, ['b', 'a', 'B', 'c'])).toEqual(['B', 'a', 'b', 'c']);
   });
 
   it('puts NaN at the end by default', () => {
-    expect(fn([3, NaN, 1, NaN, 2])).toEqual([1, 2, 3, NaN, NaN]);
+    expect(sorted(fn, [3, NaN, 1, NaN, 2])).toEqual([1, 2, 3, NaN, NaN]);
   });
 
   it('sorts objects by a key', () => {
     const people = [{ age: 30 }, { age: 20 }, { age: 25 }];
-    expect(fn(people, (a, b) => a.age - b.age).map((p) => p.age)).toEqual([20, 25, 30]);
+    expect(sorted(fn, people, (a, b) => a.age - b.age).map((p) => p.age)).toEqual([20, 25, 30]);
   });
 
   it('matches Array.prototype.sort on any doubles', () => {
     fc.assert(
       fc.property(fc.array(fc.double({ noNaN: true }), { maxLength: 100 }), (input) => {
-        expect(fn([...input], numberCompare)).toEqual(expected(input));
+        expect(sorted(fn, input, numberCompare)).toEqual(expected(input));
       }),
     );
   });
@@ -102,9 +112,9 @@ describe.each(comparisonSorts)('$name sort (comparison)', ({ fn, stable, fast })
     fc.assert(
       fc.property(fc.array(fc.integer({ min: 0, max: 5 }), { maxLength: 100 }), (keys) => {
         const items = keys.map((key, index) => ({ key, index }));
-        const sorted = fn([...items], (a, b) => a.key - b.key);
+        const result = sorted(fn, items, (a, b) => a.key - b.key);
         const byKeyThenIndex = [...items].sort((a, b) => a.key - b.key || a.index - b.index);
-        expect(sorted).toEqual(byKeyThenIndex);
+        expect(result).toEqual(byKeyThenIndex);
       }),
     );
   });
@@ -121,7 +131,7 @@ describe.each(comparisonSorts)('$name sort (comparison)', ({ fn, stable, fast })
 
     it.each(Object.keys(inputs))('%s', (kind) => {
       const input = inputs[kind]();
-      expect(fn([...input], numberCompare)).toEqual(expected(input));
+      expect(sorted(fn, input, numberCompare)).toEqual(expected(input));
     });
   });
 });
@@ -133,7 +143,7 @@ describe.each(integerSorts)('$name sort (integers)', ({ fn }) => {
 
   it('sorts 200 000 elements', () => {
     const input = range(200_000).map(() => Math.floor(Math.random() * 1e6) - 5e5);
-    expect(fn([...input])).toEqual(expected(input));
+    expect(sorted<number>(fn, input)).toEqual(expected(input));
   });
 });
 

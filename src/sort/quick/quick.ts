@@ -26,11 +26,10 @@ import { CompareFn, defaultCompare, swap } from '../utils';
  * @template T
  * @param {T[]} array - Array to sort. It is modified.
  * @param {CompareFn<T>} [compareFn] - Order of elements, ascending by default.
- * @returns {T[]} The same array, sorted.
+ * @returns {void} Nothing — `array` itself is sorted.
  */
-export function quickSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): T[] {
+export function quickSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): void {
   sortRange(array, 0, array.length - 1, compareFn);
-  return array;
 }
 
 function sortRange<T>(array: T[], low: number, high: number, compareFn: CompareFn<T>): void {

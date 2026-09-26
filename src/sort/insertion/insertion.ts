@@ -13,9 +13,9 @@ import { CompareFn, defaultCompare } from '../utils';
  * @template T
  * @param {T[]} array - Array to sort. It is modified.
  * @param {CompareFn<T>} [compareFn] - Order of elements, ascending by default.
- * @returns {T[]} The same array, sorted.
+ * @returns {void} Nothing — `array` itself is sorted.
  */
-export function insertionSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): T[] {
+export function insertionSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): void {
   for (let i = 1; i < array.length; i += 1) {
     const key = array[i];
     let j = i - 1;
@@ -25,5 +25,4 @@ export function insertionSort<T>(array: T[], compareFn: CompareFn<T> = defaultCo
     }
     array[j + 1] = key;
   }
-  return array;
 }

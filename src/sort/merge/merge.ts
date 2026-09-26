@@ -19,12 +19,11 @@ import { CompareFn, defaultCompare } from '../utils';
  * @template T
  * @param {T[]} array - Array to sort. It is modified.
  * @param {CompareFn<T>} [compareFn] - Order of elements, ascending by default.
- * @returns {T[]} The same array, sorted.
+ * @returns {void} Nothing — `array` itself is sorted.
  */
-export function mergeSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): T[] {
+export function mergeSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): void {
   const buffer = array.slice();
   sortRange(array, buffer, 0, array.length - 1, compareFn);
-  return array;
 }
 
 function sortRange<T>(

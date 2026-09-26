@@ -8,8 +8,10 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Breaking changes
 
-- All sorting functions sort **in place and return the same array**, like `Array.prototype.sort`.
-  `mergeSort`, `countingSort` and `radixSort` used to return a new array and leave the input unchanged (#46).
+- All sorting functions sort **in place and return nothing** (`void`), following command–query
+  separation like `list.sort()` in Python and `Arrays.sort()` in Java. `mergeSort`, `countingSort`
+  and `radixSort` used to return a new array and leave the input unchanged; `quickSort` returned
+  the same array (#46).
 - `countingSort` and `radixSort` throw a `TypeError` for values that are not integers
   (radix sort used to return a wrongly ordered array, counting sort crashed) (#46).
 - `countingSort` throws a `RangeError` when `max - min + 1` exceeds `COUNTING_SORT_MAX_RANGE` (2²⁶)
@@ -32,6 +34,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 - Named exports for every algorithm (`import { quickSort } from 'ts-ds'`), `defaultCompare`, `CompareFn` (#46).
 - Shared test suite for all algorithms with property-based tests (fast-check) and 100% coverage (#46).
+- `npm run typecheck` also checks the tests (`tsconfig.test.json`) (#46).
 
 ### Changed
 

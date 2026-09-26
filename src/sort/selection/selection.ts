@@ -13,9 +13,9 @@ import { CompareFn, defaultCompare, swap } from '../utils';
  * @template T
  * @param {T[]} array - Array to sort. It is modified.
  * @param {CompareFn<T>} [compareFn] - Order of elements, ascending by default.
- * @returns {T[]} The same array, sorted.
+ * @returns {void} Nothing — `array` itself is sorted.
  */
-export function selectionSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): T[] {
+export function selectionSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): void {
   for (let i = 0; i < array.length - 1; i += 1) {
     let minIndex = i;
     for (let j = i + 1; j < array.length; j += 1) {
@@ -27,5 +27,4 @@ export function selectionSort<T>(array: T[], compareFn: CompareFn<T> = defaultCo
       swap(array, i, minIndex);
     }
   }
-  return array;
 }

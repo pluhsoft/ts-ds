@@ -21,13 +21,13 @@ const BASE = 10;
  *
  * ¹ The result is written back into `array`, but O(n) extra memory is used.
  * @param {number[]} array - Integers to sort, negative values are allowed. It is modified.
- * @returns {number[]} The same array, sorted in ascending order.
+ * @returns {void} Nothing — `array` itself is sorted in ascending order.
  * @throws {TypeError} If a value is not an integer.
  */
-export function radixSort(array: number[]): number[] {
+export function radixSort(array: number[]): void {
   assertIntegers(array, 'Radix sort');
   if (array.length < 2) {
-    return array;
+    return;
   }
 
   const negatives: number[] = [];
@@ -50,7 +50,6 @@ export function radixSort(array: number[]): number[] {
   for (const value of nonNegatives) {
     array[k++] = value;
   }
-  return array;
 }
 
 function sortNonNegative(values: number[]): void {

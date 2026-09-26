@@ -17,9 +17,9 @@ import { CompareFn, defaultCompare } from '../utils';
  * @template T
  * @param {T[]} array - Array to sort. It is modified.
  * @param {CompareFn<T>} [compareFn] - Order of elements, ascending by default.
- * @returns {T[]} The same array, sorted.
+ * @returns {void} Nothing — `array` itself is sorted.
  */
-export function shellSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): T[] {
+export function shellSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompare): void {
   let gap = 1;
   while (gap < Math.floor(array.length / 3)) {
     gap = 3 * gap + 1;
@@ -36,5 +36,4 @@ export function shellSort<T>(array: T[], compareFn: CompareFn<T> = defaultCompar
       array[j] = key;
     }
   }
-  return array;
 }

@@ -24,14 +24,14 @@ export const COUNTING_SORT_MAX_RANGE = 2 ** 26;
  *
  * ¹ The result is written back into `array`, but O(n + k) extra memory is used.
  * @param {number[]} array - Integers to sort, negative values are allowed. It is modified.
- * @returns {number[]} The same array, sorted in ascending order.
+ * @returns {void} Nothing — `array` itself is sorted in ascending order.
  * @throws {TypeError} If a value is not an integer.
  * @throws {RangeError} If `max - min + 1` exceeds {@link COUNTING_SORT_MAX_RANGE}.
  */
-export function countingSort(array: number[]): number[] {
+export function countingSort(array: number[]): void {
   assertIntegers(array, 'Counting sort');
   if (array.length < 2) {
-    return array;
+    return;
   }
 
   const { min, max } = minMax(array);
@@ -60,5 +60,4 @@ export function countingSort(array: number[]): number[] {
   for (let i = 0; i < array.length; i += 1) {
     array[i] = output[i];
   }
-  return array;
 }
