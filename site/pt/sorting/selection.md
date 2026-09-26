@@ -21,6 +21,14 @@ Ordenar `[5, 2, 4, 6, 1, 3]`. O prefixo ordenado está a **negrito**.
 
 15 comparações e apenas 3 trocas.
 
+## Experimente
+
+O mesmo exemplo, passo a passo. Altere os dados ou carregue em «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="selection" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

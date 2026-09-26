@@ -29,7 +29,10 @@ try {
     join(project, 'check.cjs'),
     `const assert = require('node:assert');
 const { quickSort, sort } = require('ts-ds');
-const { mergeSort } = require('ts-ds/sort');
+const { mergeSort, sortingAlgorithms } = require('ts-ds/sort');
+const { trace } = require('ts-ds/trace');
+const { binarySearch } = require('ts-ds/search');
+assert.strictEqual(binarySearch([1, 3, 5], 5), 2);
 const a = [3, 1, 2];
 quickSort(a);
 assert.deepStrictEqual(a, [1, 2, 3]);
@@ -37,6 +40,8 @@ const b = [2, 1];
 mergeSort(b);
 assert.deepStrictEqual(b, [1, 2]);
 assert.strictEqual(typeof sort.heap, 'function');
+assert.strictEqual(sortingAlgorithms.length, 9);
+assert.deepStrictEqual(trace(mergeSort, [2, 1]).output, [1, 2]);
 console.log('✔ require');
 `,
   );
@@ -45,6 +50,7 @@ console.log('✔ require');
     `import assert from 'node:assert';
 import { quickSort, sort } from 'ts-ds';
 import { countingSort } from 'ts-ds/sort';
+import { replay, trace } from 'ts-ds/trace';
 const a = [3, 1, 2];
 quickSort(a);
 assert.deepStrictEqual(a, [1, 2, 3]);
@@ -52,19 +58,24 @@ const b = [2, -1];
 countingSort(b);
 assert.deepStrictEqual(b, [-1, 2]);
 assert.strictEqual(typeof sort.heap, 'function');
+const traced = trace(quickSort, [3, 1, 2]);
+assert.deepStrictEqual(replay(traced.input, traced.steps), [1, 2, 3]);
 console.log('✔ import');
 `,
   );
   writeFileSync(
     join(project, 'check.ts'),
     `import { quickSort, type CompareFn } from 'ts-ds';
-import { sort } from 'ts-ds/sort';
+import { sort, sortingAlgorithms, type SortingAlgorithm } from 'ts-ds/sort';
+import { trace, type Step } from 'ts-ds/trace';
 const byLength: CompareFn<string> = (a, b) => a.length - b.length;
 const words = ['ccc', 'a', 'bb'];
 quickSort(words, byLength);
 sort.merge(words);
 // @ts-expect-error sorting functions return void
 const copy: string[] = quickSort(words);
+const first: SortingAlgorithm = sortingAlgorithms[0];
+const steps: Step<string>[] = trace(first.kind === 'comparison' ? first.sort : quickSort, words).steps;
 `,
   );
 

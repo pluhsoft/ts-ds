@@ -35,3 +35,11 @@ export const sort = {
   selection: selectionSort,
   shell: shellSort,
 };
+
+export { sortingAlgorithms } from './algorithms.js';
+export type {
+  Complexity,
+  ComparisonSortingAlgorithm,
+  IntegerSortingAlgorithm,
+  SortingAlgorithm,
+} from './algorithms.js';

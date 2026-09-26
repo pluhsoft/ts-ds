@@ -29,6 +29,14 @@ Array: `2, 0, 3, 1, 5, 6, 4, 7, 9, 8` — cada elemento está a poucas posiçõe
 **Intervalo 1** — a ordenação por inserção termina com apenas 6 deslocamentos (as 6 inversões
 restantes): `0, 1, 2, 3, 4, 5, 6, 7, 8, 9`.
 
+## Experimente
+
+O mesmo exemplo, passo a passo. Altere os dados ou carregue em «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="shell" :input="[9, 8, 3, 7, 5, 6, 4, 1, 2, 0]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

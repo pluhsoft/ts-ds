@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import { defineConfig, type DefaultTheme } from 'vitepress';
 import apiSidebar from '../api/typedoc-sidebar.json' with { type: 'json' };
 
@@ -29,6 +30,9 @@ interface Labels {
   ui?: UiLabels;
   guide: string;
   gettingStarted: string;
+  tracing: string;
+  visualizer: string;
+  search: string;
   sorting: string;
   overview: string;
   api: string;
@@ -53,18 +57,23 @@ function sidebar(prefix: string, labels: Labels): DefaultTheme.SidebarItem[] {
   return [
     {
       text: labels.guide,
-      items: [{ text: labels.gettingStarted, link: `${prefix}/guide/getting-started` }],
+      items: [
+        { text: labels.gettingStarted, link: `${prefix}/guide/getting-started` },
+        { text: labels.tracing, link: `${prefix}/guide/tracing` },
+      ],
     },
     {
       text: labels.sorting,
       items: [
         { text: labels.overview, link: `${prefix}/sorting/` },
+        { text: labels.visualizer, link: `${prefix}/visualizer` },
         ...algorithms.map((id) => ({
           text: labels.names?.[id] ?? names[id],
           link: `${prefix}/sorting/${id}`,
         })),
       ],
     },
+    { text: labels.search, items: [{ text: labels.search, link: '/search/' }] },
     { text: labels.api, link: '/api/', collapsed: true, items: apiSidebar },
   ];
 }
@@ -83,6 +92,7 @@ function locale(
     nav: [
       { text: labels.gettingStarted, link: `${prefix}/guide/getting-started` },
       { text: labels.sorting, link: `${prefix}/sorting/` },
+      { text: labels.visualizer, link: `${prefix}/visualizer` },
       { text: labels.api, link: '/api/' },
     ],
     sidebar: sidebar(prefix, labels),
@@ -114,6 +124,9 @@ function searchLocale(ui: UiLabels) {
 const en = locale('', 'en', 'English', 'Data structures and algorithms in TypeScript, explained.', {
   guide: 'Guide',
   gettingStarted: 'Getting started',
+  tracing: 'Tracing and metadata',
+  visualizer: 'Visualizer',
+  search: 'Searching',
   sorting: 'Sorting',
   overview: 'Overview and comparison',
   api: 'API reference',
@@ -142,6 +155,9 @@ const ru = locale(
     ui: ruUi,
     guide: 'Руководство',
     gettingStarted: 'Начало работы',
+    tracing: 'Трассировка и метаданные',
+    visualizer: 'Визуализатор',
+    search: 'Поиск (English)',
     sorting: 'Сортировки',
     overview: 'Обзор и сравнение',
     api: 'Справочник API',
@@ -182,6 +198,9 @@ const pt = locale(
     ui: ptUi,
     guide: 'Guia',
     gettingStarted: 'Primeiros passos',
+    tracing: 'Rastreio e metadados',
+    visualizer: 'Visualizador',
+    search: 'Pesquisa (English)',
     sorting: 'Ordenação',
     overview: 'Visão geral e comparação',
     api: 'Referência da API',
@@ -222,6 +241,9 @@ const es = locale(
     ui: esUi,
     guide: 'Guía',
     gettingStarted: 'Primeros pasos',
+    tracing: 'Trazado y metadatos',
+    visualizer: 'Visualizador',
+    search: 'Búsqueda (English)',
     sorting: 'Ordenamiento',
     overview: 'Resumen y comparación',
     api: 'Referencia de la API',
@@ -243,8 +265,13 @@ export default defineConfig({
   title: 'ts-ds',
   base: '/ts-ds/',
   cleanUrls: true,
+  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/ts-ds/favicon.svg' }]],
   lastUpdated: true,
   markdown: { math: true },
+  vite: {
+    // Pages use the library from the sources in this repository, as `import … from 'ts-ds'`.
+    resolve: { alias: { 'ts-ds': fileURLToPath(new URL('../../src/index.ts', import.meta.url)) } },
+  },
   locales: {
     root: { ...en, themeConfig: en },
     ru: { ...ru, link: '/ru/', themeConfig: ru },

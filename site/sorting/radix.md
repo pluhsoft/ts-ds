@@ -24,6 +24,14 @@ zeros are shown in the last pass for clarity.
 Look at 170 and 75 after the tens pass: both have 7 tens, and 170 stays before 75 because it was
 before it after the ones pass (0 < 5). That is why every pass must be stable.
 
+## Try it
+
+The same example, step by step. Change the data or press Play.
+
+<ClientOnly>
+  <SortVisualizer algorithm="radix" :input="[170, 45, 75, 90, 802, 24, 2, 66]" />
+</ClientOnly>
+
 ## Pseudocode
 
 ```text

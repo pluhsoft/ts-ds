@@ -25,6 +25,14 @@ Sorting `[2, 5, 3, 0, 2, 3, 0, 3]` — the example from CLRS (values 0…5).
 Placing from the end: the last `3` goes to position `7 − 1 = 6`, the last `0` to `2 − 1 = 1`, the
 next `3` to `6 − 1 = 5`, and so on. Result: `0, 0, 2, 2, 3, 3, 3, 5`.
 
+## Try it
+
+The same example, step by step. Change the data or press Play.
+
+<ClientOnly>
+  <SortVisualizer algorithm="counting" :input="[2, 5, 3, 0, 2, 3, 0, 3]" />
+</ClientOnly>
+
 ## Pseudocode
 
 ```text

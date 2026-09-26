@@ -20,6 +20,14 @@ Sorting `[5, 2, 4, 6, 1, 3]` — the example from CLRS. The sorted prefix is in 
 
 12 comparisons, 9 shifts — again the number of inversions.
 
+## Try it
+
+The same example, step by step. Change the data or press Play.
+
+<ClientOnly>
+  <SortVisualizer algorithm="insertion" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocode
 
 ```text

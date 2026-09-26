@@ -28,6 +28,14 @@ Array: `2, 0, 3, 1, 5, 6, 4, 7, 9, 8` — every element is at most a few positio
 
 **Gap 1** — insertion sort finishes with only 6 shifts (the 6 remaining inversions): `0, 1, 2, 3, 4, 5, 6, 7, 8, 9`.
 
+## Try it
+
+The same example, step by step. Change the data or press Play.
+
+<ClientOnly>
+  <SortVisualizer algorithm="shell" :input="[9, 8, 3, 7, 5, 6, 4, 1, 2, 0]" />
+</ClientOnly>
+
 ## Pseudocode
 
 ```text

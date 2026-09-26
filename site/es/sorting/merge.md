@@ -43,6 +43,14 @@ La última mezcla paso a paso — se comparan los elementos del frente y se toma
 | **5**       | **6**       | 5       | 1, 2, 3, 4, 5    |
 | —           | 6           | 6       | 1, 2, 3, 4, 5, 6 |
 
+## Pruébalo
+
+El mismo ejemplo, paso a paso. Cambia los datos o pulsa «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="merge" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

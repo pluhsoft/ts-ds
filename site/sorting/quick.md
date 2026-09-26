@@ -40,6 +40,14 @@ elements are greater than 4:
 
 **Recursion.** `[1, 2, 3]` and `[6, 5]` are sorted the same way: `1, 2, 3, 4, 5, 6`.
 
+## Try it
+
+The same example, step by step. Change the data or press Play.
+
+<ClientOnly>
+  <SortVisualizer algorithm="quick" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocode
 
 ```text

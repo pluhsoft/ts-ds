@@ -26,6 +26,14 @@ Ordenamos `[2, 5, 3, 0, 2, 3, 0, 3]` — el ejemplo de Cormen (valores 0…5).
 Colocando desde el final: el último `3` va a la posición `7 − 1 = 6`, el último `0` a `2 − 1 = 1`, el
 siguiente `3` a `6 − 1 = 5`, y así sucesivamente. Resultado: `0, 0, 2, 2, 3, 3, 3, 5`.
 
+## Pruébalo
+
+El mismo ejemplo, paso a paso. Cambia los datos o pulsa «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="counting" :input="[2, 5, 3, 0, 2, 3, 0, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

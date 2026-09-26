@@ -21,6 +21,14 @@ Sorting `[5, 2, 4, 6, 1, 3]`. The sorted tail is in **bold**.
 15 comparisons, 9 swaps. The number of swaps equals the number of _inversions_ — pairs that are
 out of order.
 
+## Try it
+
+The same example, step by step. Change the data or press Play.
+
+<ClientOnly>
+  <SortVisualizer algorithm="bubble" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocode
 
 ```text

@@ -27,6 +27,14 @@ Repare no 170 e no 75 depois da passagem pelas dezenas: ambos têm 7 dezenas, e 
 75 porque estava antes dele depois da passagem pelas unidades (0 < 5). É por isso que cada passagem
 tem de ser estável.
 
+## Experimente
+
+O mesmo exemplo, passo a passo. Altere os dados ou carregue em «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="radix" :input="[170, 45, 75, 90, 802, 24, 2, 66]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text
