@@ -22,6 +22,14 @@ Ordenamos `[5, 2, 4, 6, 1, 3]`. La cola ordenada está en **negrita**.
 15 comparaciones, 9 intercambios. El número de intercambios es igual al número de _inversiones_ —
 pares que están desordenados.
 
+## Pruébalo
+
+El mismo ejemplo, paso a paso. Cambia los datos o pulsa «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="bubble" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

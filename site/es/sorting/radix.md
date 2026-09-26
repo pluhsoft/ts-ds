@@ -26,6 +26,14 @@ Fíjate en 170 y 75 tras la pasada por las decenas: ambos tienen 7 decenas, y 17
 porque estaba antes tras la pasada por las unidades (0 < 5). Por eso cada pasada tiene que ser
 estable.
 
+## Pruébalo
+
+El mismo ejemplo, paso a paso. Cambia los datos o pulsa «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="radix" :input="[170, 45, 75, 90, 802, 24, 2, 66]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

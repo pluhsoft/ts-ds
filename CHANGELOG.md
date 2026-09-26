@@ -8,6 +8,10 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Added
 
+- Interactive visualizer on the documentation site: bars, play/pause, step forward and back, a
+  timeline, speed, random / nearly sorted / reversed / few-unique / your own data, live counters of
+  comparisons, swaps and writes, in four languages. A dedicated page and a "Try it" block with the
+  worked example on every algorithm page (#50).
 - `trace(algorithm, array)` records every comparison, swap and write of a sorting algorithm without
   changing it, with counters of comparisons, reads, writes and swaps; `replay(input, steps, count)`
   rebuilds the array after any step. Available from `ts-ds` and `ts-ds/trace` (#48).

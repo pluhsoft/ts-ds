@@ -20,6 +20,14 @@ Ordenamos `[5, 2, 4, 6, 1, 3]` — el ejemplo de Cormen. El prefijo ordenado est
 
 12 comparaciones, 9 desplazamientos — de nuevo, el número de inversiones.
 
+## Pruébalo
+
+El mismo ejemplo, paso a paso. Cambia los datos o pulsa «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="insertion" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

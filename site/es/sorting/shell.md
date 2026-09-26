@@ -30,6 +30,14 @@ Array: `2, 0, 3, 1, 5, 6, 4, 7, 9, 8` — cada elemento está a pocas posiciones
 **Salto 1** — el ordenamiento por inserción termina con solo 6 desplazamientos (las 6 inversiones
 restantes): `0, 1, 2, 3, 4, 5, 6, 7, 8, 9`.
 
+## Pruébalo
+
+El mismo ejemplo, paso a paso. Cambia los datos o pulsa «Iniciar».
+
+<ClientOnly>
+  <SortVisualizer algorithm="shell" :input="[9, 8, 3, 7, 5, 6, 4, 1, 2, 0]" />
+</ClientOnly>
+
 ## Pseudocódigo
 
 ```text

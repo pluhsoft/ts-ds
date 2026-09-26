@@ -43,6 +43,14 @@ The last merge step by step — compare the front elements, take the smaller one
 | **5**       | **6**       | 5    | 1, 2, 3, 4, 5    |
 | —           | 6           | 6    | 1, 2, 3, 4, 5, 6 |
 
+## Try it
+
+The same example, step by step. Change the data or press Play.
+
+<ClientOnly>
+  <SortVisualizer algorithm="merge" :input="[5, 2, 4, 6, 1, 3]" />
+</ClientOnly>
+
 ## Pseudocode
 
 ```text
