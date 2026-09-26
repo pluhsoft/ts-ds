@@ -1,5 +1,7 @@
 build/
 coverage/
-docs/
 package-lock.json
 CHANGELOG.md
+site/api/
+site/.vitepress/cache/
+site/.vitepress/dist/

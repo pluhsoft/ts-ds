@@ -1,0 +1,15 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["../src/index.ts"],
+  "tsconfig": "../tsconfig.json",
+  "out": "api",
+  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "docsRoot": ".",
+  "readme": "none",
+  "gitRevision": "main",
+  "excludeExternals": true,
+  "hidePageHeader": true,
+  "useCodeBlocks": true,
+  "parametersFormat": "table",
+  "sidebar": { "pretty": true }
+}
