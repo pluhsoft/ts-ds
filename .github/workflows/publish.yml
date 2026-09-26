@@ -1,89 +1,101 @@
-name: Auto Bump Version and Publish
+# Publishes the package from main. The file name must stay `publish.yml`:
+# npm trusted publishing (OIDC) is configured for this exact workflow file.
+name: Publish
 
-env:
-  BRANCH_NAME: 'master'
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
-on: push
+permissions: {}
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
 
 jobs:
-  bump-version:
+  ci:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
+  publish:
+    needs: ci
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write # create the tag and the GitHub release
+      id-token: write # npm trusted publishing and provenance
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: '20'
+          persist-credentials: false
 
-      - name: Install dependencies
-        run: npm install
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org
+          cache: npm
 
-      - name: Bump version
+      - name: Read version
+        id: version
         run: |
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git config --global user.name "${GITHUB_ACTOR}"
-          git stash --include-untracked
-          npm version patch -m "chore(release): bump version to %s"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name=$(jq -r .name package.json)
+          version=$(jq -r .version package.json)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if npm view "$name@$version" version > /dev/null 2>&1; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::$name@$version is already on npm, publishing is skipped."
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Push changes
+      - run: npm ci
+        if: steps.version.outputs.published == 'false'
+
+      - name: Publish to npm
+        if: steps.version.outputs.published == 'false'
+        run: npm publish --provenance --access public
+
+      - name: Create tag and GitHub release
         run: |
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git config --global user.name "${GITHUB_ACTOR}"
-          git pull origin ${{ env.BRANCH_NAME }} --rebase
-          git push origin HEAD:${{ env.BRANCH_NAME }} --follow-tags
+          tag="v${{ steps.version.outputs.version }}"
+          if gh release view "$tag" > /dev/null 2>&1; then
+            echo "Release $tag already exists."
+          else
+            node .github/scripts/extract-release-notes.mjs "${{ steps.version.outputs.version }}" > notes.md
+            gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file notes.md
+          fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
 
-  publish-npm:
-    needs: bump-version
+  backmerge:
+    needs: publish
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write
-
+      pull-requests: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: '24'
-          registry-url: 'https://registry.npmjs.org'
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
-      - name: Publish
-        run: npm publish --registry https://registry.npmjs.org --provenance --access public
+          fetch-depth: 0
+          persist-credentials: false
 
-  docs-collection:
-    needs: bump-version
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Combine READMEs
-      run: |
-        mkdir -p docs
-        [ -f ./docs/combinedReadme.md ] || touch ./docs/combinedReadme.md
-        cat README.md > ./docs/combinedReadme.md
-        find ./src -name 'README.md' -exec cat {} \; >> ./docs/combinedReadme.md
-
-    - name: Push changes
-      run: |
-        git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-        git config --global user.name "${GITHUB_ACTOR}"
-        git stash
-        git pull origin ${{ env.BRANCH_NAME }} --rebase
-        if git stash list | grep stash@{0}; then git stash pop; fi
-        git add .
-        git commit -am "Automated README combine" || echo "No changes to commit"
-        git push origin HEAD:${{ env.BRANCH_NAME }} --follow-tags
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Open backmerge pull request main → develop
+        run: |
+          ahead=$(git rev-list --count origin/develop..origin/main)
+          if [ "$ahead" -eq 0 ]; then
+            echo "develop already contains main."
+            exit 0
+          fi
+          existing=$(gh pr list --base develop --head main --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "Backmerge pull request #$existing is already open."
+            exit 0
+          fi
+          version=$(jq -r .version package.json)
+          gh pr create --base develop --head main \
+            --title "chore: backmerge v$version into develop" \
+            --body "Automatic backmerge after release v$version. Merge with a **merge commit** (not squash)."
+        env:
+          GH_TOKEN: ${{ github.token }}

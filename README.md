@@ -27,6 +27,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### 🔹 Fundamental Data Structures
 
 #### Stack
+
 - [ ] `push(value)`
 - [ ] `pop()`
 - [ ] `peek()`
@@ -35,6 +36,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `clear()`
 
 #### Queue
+
 - [ ] `enqueue(value)`
 - [ ] `dequeue()`
 - [ ] `front()`
@@ -43,6 +45,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `clear()`
 
 #### LinkedList
+
 - [ ] `add(value)` / `append(value)`
 - [ ] `insertAt(index, value)`
 - [ ] `removeAt(index)`
@@ -55,6 +58,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `toArray()`
 
 #### DoublyLinkedList
+
 - [ ] `add(value)`
 - [ ] `insertAt(index, value)`
 - [ ] `remove(value)`
@@ -64,6 +68,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### 📊 Hash-based and Set Structures
 
 #### HashMap / Dictionary
+
 - [ ] `set(key, value)`
 - [ ] `get(key)`
 - [ ] `has(key)` / `containsKey(key)`
@@ -75,6 +80,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `clear()`
 
 #### HashSet
+
 - [ ] `add(value)`
 - [ ] `has(value)`
 - [ ] `delete(value)`
@@ -88,6 +94,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### ⚙️ Heap and Priority Structures
 
 #### Heap (Min/Max)
+
 - [ ] `push(value)` / `insert(value)`
 - [ ] `pop()` / `extractMin/Max()`
 - [ ] `peek()`
@@ -98,6 +105,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### 🌳 Tree Data Structures
 
 #### Binary Search Tree (BST)
+
 - [ ] `insert(value)`
 - [ ] `delete(value)`
 - [ ] `search(value)` / `contains(value)`
@@ -110,12 +118,14 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `isBalanced()`
 
 #### AVL Tree
+
 - [ ] `insert(value)`
 - [ ] `delete(value)`
 - [ ] `search(value)`
 - [ ] `getBalance(node)`
 
 #### Trie
+
 - [ ] `insert(word)`
 - [ ] `search(word)`
 - [ ] `startsWith(prefix)`
@@ -125,6 +135,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### 🕸️ Graph Structures
 
 #### Graph (Undirected & Directed)
+
 - [ ] `addVertex(value)`
 - [ ] `addEdge(from, to, weight?)`
 - [ ] `removeVertex(value)`
@@ -135,6 +146,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 - [ ] `hasEdge(from, to)`
 
 #### Graph Algorithms
+
 - [ ] `bfs(start)`
 - [ ] `dfs(start)`
 - [ ] `dijkstra(start)`
@@ -147,8 +159,10 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 ### 🔀 Sorting and Searching Algorithms
 
 #### Selection Sort
+
 - [x] `selectionSort(arr, compareFn?)`
 - [x] `selectionSort` tests
+
 <details>
 <summary>Selection sort details</summary>
 
@@ -161,8 +175,10 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 </details>
 
 #### Bubble Sort
+
 - [x] `bubbleSort(arr, compareFn?)`
 - [x] `bubbleSort` optimized
+
 <details>
 <summary>Bubble sort details</summary>
 
@@ -175,7 +191,9 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 </details>
 
 #### Insertion Sort
+
 - [x] `insertionSort(arr, compareFn?)`
+
 <details>
 <summary>Insertion sort details</summary>
 
@@ -187,7 +205,9 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 </details>
 
 #### Merge Sort
+
 - [x] `mergeSort(arr, compareFn?)`
+
 <details>
 <summary>Merge sort details</summary>
 
@@ -199,7 +219,9 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 </details>
 
 #### Quick Sort
+
 - [x] `quickSort(arr, compareFn?)`
+
 <details>
 <summary>Quick sort details</summary>
 
@@ -211,7 +233,9 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 </details>
 
 #### Heap Sort
+
 - [x] `heapSort(arr, compareFn?)`
+
 <details>
 <summary>Heap sort details</summary>
 
@@ -223,7 +247,9 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 </details>
 
 #### Counting Sort
+
 - [x] `countingSort(arr)`
+
 <details>
 <summary>Counting sort details</summary>
 
@@ -235,7 +261,9 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 </details>
 
 #### Radix Sort
+
 - [x] `radixSort(arr)`
+
 <details>
 <summary>Radix sort details</summary>
 
@@ -247,7 +275,9 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 </details>
 
 #### Shell Sort
+
 - [x] `shellSort(arr, compareFn?)`
+
 <details>
 <summary>Shell sort details</summary>
 
@@ -259,6 +289,7 @@ console.log(array); // [11, 12, 22, 25, 34, 64, 90]
 </details>
 
 #### Searching Algorithms
+
 - [ ] `linearSearch(arr, value)`
 - [ ] `binarySearch(arr, value)`
 - [ ] `interpolationSearch(arr, value)`
@@ -278,49 +309,41 @@ Andrei Pliukhaev
 
 ### Setup
 
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Make sure TypeScript is installed
+Requires Node.js 24 (see [`.nvmrc`](.nvmrc)).
+
+```bash
+git clone https://github.com/pluhsoft/ts-ds.git
+cd ts-ds
+git switch develop
+npm ci
+```
 
 ### Scripts
 
 ```bash
-# Build project
-npm run build
-
-# Run tests
-npm run test
-
-# Watch for changes
-npm run watch
-
-# Format code
-npm run format
+npm run build          # compile to build/
+npm test               # run tests once
+npm run test:watch     # run tests in watch mode
+npm run test:coverage  # tests with coverage report
+npm run typecheck      # TypeScript without emitting files
+npm run format         # format with Prettier
 ```
 
 ### Project Structure
 
 ```
 src/
-├── index.ts          # Main entry point
-├── index.test.ts     # Main tests
+├── index.ts            # Main entry point
+├── index.test.ts       # Main tests
 └── sort/
-    ├── selection/
-    │   ├── selection.ts
-    │   ├── selection.test.ts
-    │   └── README.md
-    └── data.ts
+    ├── index.ts        # sort namespace
+    ├── utils.ts        # compare and swap helpers
+    └── <algorithm>/
+        ├── <algorithm>.ts
+        └── <algorithm>.test.ts
 ```
 
-### Development Guidelines
+### Contributing and releases
 
-- Follow TypeScript best practices
-- Write tests for all new features
-- Use Prettier for code formatting
-- Maintain comprehensive documentation
-- Keep data structures generic using TypeScript generics
-
-### Contributing
-
-Feel free to submit issues and enhancement requests!
-
+Development follows Git Flow: `feature/*` → `develop` → `release/X.Y.Z` → `main` → npm.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full process and [CHANGELOG.md](CHANGELOG.md) for changes.

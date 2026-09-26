@@ -12,7 +12,9 @@ export function radixSort(array: number[]): number[] {
   const negative = array.filter((value) => value < 0).map((value) => -value);
 
   const sortedPositive = radixSortNonNegative(positive);
-  const sortedNegative = radixSortNonNegative(negative).reverse().map((value) => -value);
+  const sortedNegative = radixSortNonNegative(negative)
+    .reverse()
+    .map((value) => -value);
 
   return sortedNegative.concat(sortedPositive);
 }
