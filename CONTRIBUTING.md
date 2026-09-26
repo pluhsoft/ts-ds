@@ -108,6 +108,24 @@ npm run check:package  # exports and types for ESM, CommonJS and bundlers
 node .github/scripts/smoke-test-package.mjs  # install the tarball and use it
 ```
 
+## Documentation site
+
+The site in [`site/`](site/) is built with [VitePress](https://vitepress.dev) and has its own
+`package.json` — it is not part of the npm package. Pages exist in four languages: English (root),
+Russian (`site/ru/`), European Portuguese (`site/pt/`) and Spanish (`site/es/`). The API reference
+is generated from JSDoc by TypeDoc.
+
+```bash
+cd site
+npm ci
+npm run dev     # http://localhost:5173/ts-ds/
+npm run build   # what CI checks on every pull request
+```
+
+When you add or change an algorithm page, update all four languages. The site is deployed to
+GitHub Pages by the `Publish` workflow on every release, so it always describes the published
+version.
+
 ## Security of the pipeline
 
 - Third-party actions are pinned to a full commit SHA with the version in a comment

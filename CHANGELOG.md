@@ -6,6 +6,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+### Added
+
+- Documentation site at https://pluhsoft.github.io/ts-ds/ in English, Russian, European Portuguese
+  and Spanish: a page for every sorting algorithm with the idea, a worked example, pseudocode,
+  complexity analysis and literature, plus an API reference generated from JSDoc (#49).
+
 ### Breaking changes
 
 - The package is an ES module (`"type": "module"`) with an `exports` map: only `ts-ds`,
