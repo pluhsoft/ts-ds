@@ -1,12 +1,10 @@
-import { expect } from 'chai';
-import { APlusB } from './index';
+import { describe, it, expect } from 'vitest';
+import { sort } from './index';
 
-describe('first test', () => {
-  it('it should be pass', () => {
-    console.log('win');
-  });
-  it('it APluB return 5', () => {
-    const sum = APlusB(2, 3);
-    expect(sum).to.be.eq(5);
+describe('sort API', () => {
+  it('runs selection sort', () => {
+    const array = [3, 1, 2];
+    sort.selection(array);
+    expect(array).toEqual([1, 2, 3]);
   });
 });
