@@ -4,6 +4,8 @@ import { useData } from 'vitepress';
 import { replay, sortingAlgorithms, trace, type Step, type Trace } from 'ts-ds';
 import { textFor } from './i18n';
 import { makeInput, parseInput, type InputKind } from './inputs';
+import { pseudocode } from './pseudocode';
+import SortBars from './SortBars.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -80,23 +82,15 @@ const description = computed(() => {
   return t.value.write(String(step.value), step.index);
 });
 
-const bounds = computed(() => {
-  const min = Math.min(0, ...input.value);
-  const max = Math.max(1, ...input.value);
-  return { min, max };
+const code = computed(() => pseudocode[algorithmId.value]);
+const lines = computed(() => {
+  try {
+    return code.value.lines(input.value.length, steps.value);
+  } catch {
+    return [];
+  }
 });
-
-function barHeight(value: number): number {
-  const { min, max } = bounds.value;
-  return 4 + ((value - min) / (max - min || 1)) * 96;
-}
-
-function barClass(index: number): string {
-  if (finished.value && current.value > 0) return 'bar done';
-  if (highlighted.value.changed.has(index)) return 'bar changed';
-  if (highlighted.value.compared.has(index)) return 'bar compared';
-  return 'bar';
-}
+const currentLine = computed(() => (current.value > 0 ? lines.value[current.value - 1] : -1));
 
 function stop(): void {
   playing.value = false;
@@ -215,25 +209,23 @@ onBeforeUnmount(stop);
       <span v-if="invalid" class="error">{{ t.invalidInput }}</span>
     </form>
 
-    <svg
-      class="bars"
-      :viewBox="`0 0 ${array.length * 10} 100`"
-      preserveAspectRatio="none"
-      role="img"
-      :aria-label="array.join(', ')"
-    >
-      <rect
-        v-for="(value, index) in array"
-        :key="index"
-        :class="barClass(index)"
-        :x="index * 10 + 1"
-        :y="100 - barHeight(value)"
-        width="8"
-        :height="barHeight(value)"
+    <div class="stage">
+      <SortBars
+        class="bars"
+        :array="array"
+        :compared="[...highlighted.compared]"
+        :changed="[...highlighted.changed]"
+        :done="finished && current > 0"
       />
-    </svg>
-    <div v-if="array.length <= 20" class="values">
-      <span v-for="(value, index) in array" :key="index">{{ value }}</span>
+      <figure v-if="code" class="pseudocode">
+        <figcaption>{{ t.pseudocode }}</figcaption>
+        <pre><code><span
+          v-for="(line, index) in code.code"
+          :key="index"
+          :class="{ active: index === currentLine }"
+        >{{ line }}
+</span></code></pre>
+      </figure>
     </div>
 
     <p class="description" aria-live="polite">
@@ -286,11 +278,6 @@ onBeforeUnmount(stop);
 
 <style scoped>
 .sort-visualizer {
-  --bar: var(--vp-c-brand-soft);
-  --bar-stroke: var(--vp-c-brand-1);
-  --bar-compared: #f5b400;
-  --bar-changed: #e5484d;
-  --bar-done: #30a46c;
   margin: 16px 0;
   padding: 16px;
   border: 1px solid var(--vp-c-divider);
@@ -347,39 +334,45 @@ button:hover {
   color: var(--vp-c-danger-1);
   font-size: 13px;
 }
-.bars {
-  display: block;
-  width: 100%;
-  height: 220px;
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 16px;
   margin-top: 16px;
+  align-items: start;
 }
-.bar {
-  fill: var(--bar);
-  stroke: var(--bar-stroke);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  transition:
-    y 0.12s,
-    height 0.12s;
+@media (max-width: 720px) {
+  .stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
-.bar.compared {
-  fill: var(--bar-compared);
+.pseudocode {
+  margin: 0;
 }
-.bar.changed {
-  fill: var(--bar-changed);
-}
-.bar.done {
-  fill: var(--bar-done);
-}
-.values {
-  display: flex;
-  font-family: var(--vp-font-family-mono);
-  font-size: 12px;
+.pseudocode figcaption {
+  font-size: 13px;
   color: var(--vp-c-text-2);
+  margin-bottom: 4px;
 }
-.values span {
-  flex: 1;
-  text-align: center;
+.pseudocode pre {
+  margin: 0;
+  padding: 8px 0;
+  border-radius: 8px;
+  background: var(--vp-code-block-bg);
+  overflow-x: auto;
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+.pseudocode span {
+  display: block;
+  padding: 0 12px;
+  white-space: pre;
+  border-left: 3px solid transparent;
+}
+.pseudocode span.active {
+  background: var(--vp-c-brand-soft);
+  border-left-color: var(--vp-c-brand-1);
+  font-weight: 600;
 }
 .description {
   min-height: 1.6em;
@@ -425,10 +418,10 @@ button:hover {
   border-radius: 3px;
 }
 .swatch.compared {
-  background: var(--bar-compared);
+  background: var(--ts-ds-compared);
 }
 .swatch.changed {
-  background: var(--bar-changed);
+  background: var(--ts-ds-changed);
 }
 @media (prefers-reduced-motion: reduce) {
   .bar {
