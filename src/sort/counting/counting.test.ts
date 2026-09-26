@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { COUNTING_SORT_MAX_RANGE, countingSort } from './counting';
+import { COUNTING_SORT_MAX_RANGE, countingSort } from './counting.js';
 
 /** Sorts a copy of `input` and returns it. */
 function sorted(input: number[]): number[] {

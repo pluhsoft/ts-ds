@@ -34,6 +34,16 @@ const copy = [...original];
 sort.heap(copy, (a, b) => b - a); // copy: [3, 2, 1], original: [3, 1, 2]
 ```
 
+Works with ES modules and CommonJS, in Node.js 18+ and bundlers. The package is side-effect free:
+with named imports bundlers keep only the algorithms you use (`quickSort` alone is ~0.6 kB
+minified), while the `sort` object includes all of them.
+
+```typescript
+import { quickSort } from 'ts-ds'; // ES modules
+import { quickSort } from 'ts-ds/sort'; // sorting algorithms only
+const { quickSort } = require('ts-ds'); // CommonJS
+```
+
 Every sorting function sorts the array **in place** and **returns nothing** (`void`), like
 `list.sort()` in Python or `Arrays.sort()` in Java. A function either changes data or returns a
 result, never both ([command–query separation](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation)),
@@ -226,11 +236,12 @@ npm ci
 ### Scripts
 
 ```bash
-npm run build          # compile to build/
+npm run build          # compile to build/esm and build/cjs
 npm test               # run tests once
 npm run test:watch     # run tests in watch mode
 npm run test:coverage  # tests with coverage report
 npm run typecheck      # TypeScript without emitting files
+npm run check:package  # exports and types for ESM, CommonJS and bundlers
 npm run format         # format with Prettier
 ```
 

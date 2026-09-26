@@ -104,6 +104,8 @@ npm run typecheck      # TypeScript
 npm run test:coverage  # Vitest, coverage thresholds 90%
 npm run build
 npm pack --dry-run     # what would be published: only build/, README, LICENSE
+npm run check:package  # exports and types for ESM, CommonJS and bundlers
+node .github/scripts/smoke-test-package.mjs  # install the tarball and use it
 ```
 
 ## Security of the pipeline

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { defaultCompare, minMax } from './utils';
+import { defaultCompare, minMax } from './utils.js';
 
 describe('defaultCompare', () => {
   it('orders numbers and strings ascending', () => {

@@ -39,6 +39,12 @@ jobs:
             || { echo "::error::package.json must not have runtime dependencies"; exit 1; }
           npm pack --dry-run --ignore-scripts
 
+      - name: Check exports and types (publint, arethetypeswrong)
+        run: npm run check:package
+
+      - name: Install the package into an empty project and use it
+        run: node .github/scripts/smoke-test-package.mjs
+
   version-policy:
     name: version-policy
     if: github.event_name == 'pull_request'

@@ -8,6 +8,10 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Breaking changes
 
+- The package is an ES module (`"type": "module"`) with an `exports` map: only `ts-ds`,
+  `ts-ds/sort` and `ts-ds/package.json` can be imported; deep imports like `ts-ds/build/...` no
+  longer work. CommonJS `require('ts-ds')` keeps working (#47).
+
 - All sorting functions sort **in place and return nothing** (`void`), following command–query
   separation like `list.sort()` in Python and `Arrays.sort()` in Java. `mergeSort`, `countingSort`
   and `radixSort` used to return a new array and leave the input unchanged; `quickSort` returned
@@ -31,6 +35,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Every algorithm documents its idea, complexity, memory and stability in JSDoc (#46).
 
 ### Added
+
+- ES modules and CommonJS builds with an `exports` map and types for both; `ts-ds/sort` subpath;
+  `sideEffects: false` for tree-shaking; `engines.node >= 18` (#47).
+- CI checks the package with publint and arethetypeswrong and installs the packed tarball into an
+  empty project to use it via `require`, `import` and TypeScript (#47).
 
 - Named exports for every algorithm (`import { quickSort } from 'ts-ds'`), `defaultCompare`, `CompareFn` (#46).
 - Shared test suite for all algorithms with property-based tests (fast-check) and 100% coverage (#46).

@@ -1,4 +1,4 @@
-import { assertIntegers, minMax } from '../utils';
+import { assertIntegers, minMax } from '../utils.js';
 
 /**
  * Largest supported range `max - min + 1`: 2²⁶ counters take 256 MB.

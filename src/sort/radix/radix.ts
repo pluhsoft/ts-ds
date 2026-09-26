@@ -1,4 +1,4 @@
-import { assertIntegers, minMax } from '../utils';
+import { assertIntegers, minMax } from '../utils.js';
 
 const BASE = 10;
 

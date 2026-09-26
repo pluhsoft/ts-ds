@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { radixSort } from './radix';
+import { radixSort } from './radix.js';
 
 /** Sorts a copy of `input` and returns it. */
 function sorted(input: number[]): number[] {
