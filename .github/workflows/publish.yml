@@ -63,9 +63,7 @@ jobs:
           if gh release view "$tag" > /dev/null 2>&1; then
             echo "Release $tag already exists."
           else
-            # Release notes: the CHANGELOG section of this version.
-            awk -v v="## [${{ steps.version.outputs.version }}]" \
-              'index($0, v) == 1 { found = 1; next } /^## \[/ { found = 0 } found' CHANGELOG.md > notes.md
+            node .github/scripts/extract-release-notes.mjs "${{ steps.version.outputs.version }}" > notes.md
             gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file notes.md
           fi
         env:

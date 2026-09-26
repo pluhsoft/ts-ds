@@ -49,34 +49,12 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+
       - name: Check version policy
+        run: node .github/scripts/check-version-policy.mjs
         env:
           BASE_REF: ${{ github.base_ref }}
           HEAD_REF: ${{ github.head_ref }}
-        run: |
-          fail() { echo "::error::$1"; exit 1; }
-          # true when $1 > $2 (semantic versions X.Y.Z)
-          newer() { [ "$1" != "$2" ] && [ "$(printf '%s\n' "$1" "$2" | sort -V | tail -n1)" = "$1" ]; }
-
-          version=$(jq -r .version package.json)
-          base=$(git show "origin/$BASE_REF:package.json" | jq -r .version)
-          echo "$HEAD_REF ($version) -> $BASE_REF ($base)"
-
-          case "$BASE_REF" in
-            main)
-              [[ "$HEAD_REF" =~ ^(release|hotfix)/([0-9]+\.[0-9]+\.[0-9]+)$ ]] \
-                || fail "Only release/X.Y.Z and hotfix/X.Y.Z can be merged into main."
-              [ "$version" = "${BASH_REMATCH[2]}" ] || fail "package.json version $version does not match $HEAD_REF."
-              newer "$version" "$base" || fail "$version must be greater than main ($base)."
-              npm_version=$(npm view "$(jq -r .name package.json)" version 2>/dev/null || echo 0.0.0)
-              newer "$version" "$npm_version" || fail "$version must be greater than npm ($npm_version)."
-              [ -z "$(git ls-remote --tags origin "refs/tags/v$version")" ] || fail "Tag v$version already exists."
-              grep -q "^## \[$version\]" CHANGELOG.md || fail "CHANGELOG.md has no '## [$version]' section."
-              ;;
-            develop)
-              if [[ ! "$HEAD_REF" =~ ^(main|release/.+|hotfix/.+)$ ]] && [ "$version" != "$base" ]; then
-                fail "Version changed $base -> $version. Versions are bumped only in release/* or hotfix/* branches."
-              fi
-              ;;
-          esac
-          echo "Version policy passed."

@@ -81,7 +81,7 @@ The rest is the same as a release, including the backmerge into `develop`.
 
 ## Version control
 
-The `version-policy` CI check enforces:
+The `version-policy` CI check ([`.github/scripts/check-version-policy.mjs`](.github/scripts/check-version-policy.mjs)) enforces:
 
 - into `main`: only from `release/X.Y.Z` or `hotfix/X.Y.Z`; `package.json` version equals `X.Y.Z`,
   is greater than the version on `main` and on npm, tag `vX.Y.Z` does not exist yet,
