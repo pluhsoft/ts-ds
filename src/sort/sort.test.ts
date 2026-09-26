@@ -1,9 +1,9 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import * as library from '../index';
+import * as library from '../index.js';
 import {
   bubbleSort,
-  CompareFn,
+  type CompareFn,
   countingSort,
   heapSort,
   insertionSort,
@@ -13,7 +13,7 @@ import {
   selectionSort,
   shellSort,
   sort,
-} from './index';
+} from './index.js';
 
 type ComparisonSort = <T>(array: T[], compareFn?: CompareFn<T>) => void;
 

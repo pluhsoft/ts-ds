@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { quickSort } from './quick';
+import { quickSort } from './quick.js';
 
 /** Number of comparisons quick sort makes on `input`, relative to n·log₂n. */
 function comparisonsPerNLogN(input: number[]): number {

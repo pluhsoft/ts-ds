@@ -1,4 +1,4 @@
-import { CompareFn, defaultCompare } from '../utils';
+import { type CompareFn, defaultCompare } from '../utils.js';
 
 /**
  * Sorts an array in place using Shell sort.
