@@ -6,6 +6,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+### Added
+
+- Documentation site at https://pluhsoft.github.io/ts-ds/ in English, Russian, European Portuguese
+  and Spanish: a page for every sorting algorithm with the idea, a worked example, pseudocode,
+  complexity analysis and literature, plus an API reference generated from JSDoc (#49).
+
 ## [2.0.0] - 2026-09-26
 
 Sorting algorithms are rewritten as described in CLRS and Sedgewick, and the package now ships
