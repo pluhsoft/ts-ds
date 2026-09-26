@@ -1,0 +1,5 @@
+build/
+coverage/
+docs/
+package-lock.json
+CHANGELOG.md

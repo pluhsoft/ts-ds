@@ -3,11 +3,22 @@
   "version": "1.0.33",
   "description": "Data structure and algorithm in TypeScript",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "build": "tsc -b",
     "watch": "tsc --watch",
-    "test": "vitest",
-    "format": "prettier --write src/"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:package": "node scripts/check-package.mjs",
+    "release:start": "node scripts/release.mjs start",
+    "prepack": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -25,9 +36,10 @@
   },
   "homepage": "https://github.com/pluhsoft/ts-ds#readme",
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "prettier": "^3.2.5",
-    "typescript": "^6.0.3",
-    "vitest": "^1.6.0"
+    "@types/node": "^24.19.0",
+    "@vitest/coverage-v8": "^5.0.2",
+    "prettier": "^3.9.9",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.2"
   }
 }
